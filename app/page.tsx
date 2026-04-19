@@ -14,9 +14,14 @@ export default function HomePage() {
           Hello,{" "}
           <span className="text-primary">{currentUser.name}</span>
         </h2>
-        <p className="font-body text-on-surface-variant text-sm max-w-[280px] leading-relaxed">
-          Your architectural landscape is performing at 94% efficiency today.
-        </p>
+        <div className="mt-2 p-4 bg-surface-container-lowest rounded-xl border border-outline-variant/10">
+          <p className="font-headline font-bold text-sm text-on-surface mb-1">
+            All-in-one AI Tool Hub for Productivity 🚀
+          </p>
+          <p className="font-body text-xs text-on-surface-variant">
+            Summarize · Translate · Review Code · Generate UI
+          </p>
+        </div>
       </section>
 
       {/* Bento Quick Actions */}

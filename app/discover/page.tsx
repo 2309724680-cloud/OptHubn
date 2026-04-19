@@ -1,24 +1,78 @@
 "use client";
 
-import { useState } from "react";
-import { discoverCategories, discoverItems, featuredProject } from "@/lib/mock-data";
+import { useState, useMemo } from "react";
+import { getAllTools } from "@/lib/tools-registry";
+import ToolCard from "@/components/ToolCard";
+
+const ALL_TOOLS = getAllTools();
+const CATEGORIES = ["全部", ...Array.from(new Set(ALL_TOOLS.map((t) => t.category)))];
+const ALL_TAGS = Array.from(new Set(ALL_TOOLS.flatMap((t) => t.tags)));
+
+const CATEGORY_ICONS: Record<string, string> = {
+  全部: "auto_awesome",
+  Writing: "edit_note",
+  Design: "palette",
+  Code: "code",
+  Productivity: "speed",
+};
+
+function SectionHeader({ icon, label }: { icon: string; label: string }) {
+  return (
+    <div className="flex items-center gap-2 mb-4">
+      <span
+        className="material-symbols-outlined text-[20px] text-tertiary"
+        style={{ fontVariationSettings: "'FILL' 1" }}
+      >
+        {icon}
+      </span>
+      <h3 className="font-headline font-bold text-on-surface">{label}</h3>
+    </div>
+  );
+}
 
 export default function DiscoverPage() {
-  const [activeCategory, setActiveCategory] = useState("All Results");
   const [query, setQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState("全部");
+  const [activeTag, setActiveTag] = useState("");
 
-  const filtered = discoverItems.filter(
-    (item) =>
-      (activeCategory === "All Results" || item.category.includes(activeCategory)) &&
-      (query === "" || item.title.toLowerCase().includes(query.toLowerCase()))
+  const isFiltering = query !== "" || activeCategory !== "全部" || activeTag !== "";
+
+  const filtered = useMemo(() => {
+    return ALL_TOOLS.filter((tool) => {
+      const q = query.toLowerCase();
+      const matchesQuery =
+        q === "" ||
+        tool.name.toLowerCase().includes(q) ||
+        tool.description.toLowerCase().includes(q) ||
+        tool.tags.some((t) => t.includes(q));
+      const matchesCategory = activeCategory === "全部" || tool.category === activeCategory;
+      const matchesTag = activeTag === "" || tool.tags.includes(activeTag);
+      return matchesQuery && matchesCategory && matchesTag;
+    });
+  }, [query, activeCategory, activeTag]);
+
+  const trending = useMemo(
+    () => [...ALL_TOOLS].sort((a, b) => b.usage - a.usage),
+    []
   );
+  const topRated = useMemo(
+    () => [...ALL_TOOLS].sort((a, b) => b.rating - a.rating),
+    []
+  );
+  const newTools = useMemo(() => ALL_TOOLS.filter((t) => t.isNew), []);
+
+  function clearFilters() {
+    setQuery("");
+    setActiveCategory("全部");
+    setActiveTag("");
+  }
 
   return (
     <>
       {/* Hero + Search */}
       <section className="pt-4">
         <h2 className="font-headline font-extrabold text-4xl mb-6 text-on-surface tracking-tight">
-          Explore the <span className="text-primary">Ecosystem.</span>
+          探索<span className="text-primary">工具生态。</span>
         </h2>
         <div className="relative">
           <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
@@ -28,136 +82,115 @@ export default function DiscoverPage() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="w-full pl-12 pr-4 py-4 bg-surface-container-low rounded-xl border-none outline-none focus:ring-1 focus:ring-primary focus:bg-surface-container-lowest transition-all font-body text-on-surface placeholder:text-outline/60"
-            placeholder="Search services, items or spaces..."
+            placeholder="搜索工具名称、标签..."
             type="text"
           />
         </div>
       </section>
 
       {/* Category Chips */}
-      <div className="flex gap-3 overflow-x-auto pb-1 -mx-6 px-6 scrollbar-none">
-        {discoverCategories.map(({ label, icon }) => {
-          const isActive = activeCategory === label;
+      <div className="flex gap-2 overflow-x-auto pb-1 -mx-6 px-6 scrollbar-none">
+        {CATEGORIES.map((cat) => {
+          const isActive = activeCategory === cat;
           return (
             <button
-              key={label}
-              onClick={() => setActiveCategory(label)}
-              className={`flex items-center gap-2 px-5 py-3 rounded-full font-label text-sm font-semibold whitespace-nowrap transition-colors ${
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`flex items-center gap-1.5 px-4 py-2.5 rounded-full font-label text-sm font-semibold whitespace-nowrap transition-colors ${
                 isActive
-                  ? "bg-primary-container text-on-primary-container shadow-md"
+                  ? "bg-primary text-on-primary shadow-md"
                   : "bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container"
               }`}
             >
               <span
-                className="material-symbols-outlined text-[20px]"
+                className="material-symbols-outlined text-[18px]"
                 style={isActive ? { fontVariationSettings: "'FILL' 1" } : undefined}
               >
-                {icon}
+                {CATEGORY_ICONS[cat] ?? "category"}
               </span>
-              {label}
+              {cat}
             </button>
           );
         })}
       </div>
 
-      {/* Featured Card */}
-      <div className="group relative overflow-hidden rounded-xl bg-surface-container-lowest">
-        <div className="aspect-[16/10] overflow-hidden">
-          <img
-            src={featuredProject.imageUrl}
-            alt={featuredProject.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-          />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6 flex flex-col justify-end">
-          <span className="font-label text-white/70 text-xs mb-2 tracking-widest uppercase">
-            {featuredProject.label}
-          </span>
-          <h3 className="font-headline text-xl text-white font-bold mb-1">{featuredProject.title}</h3>
-          <p className="font-body text-white/80 text-sm">{featuredProject.description}</p>
-        </div>
-      </div>
-
-      {/* Premium CTA Card */}
-      <div className="bg-surface-container-low rounded-xl p-6 flex flex-col justify-between border border-outline-variant/10">
-        <div>
-          <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-4">
-            <span
-              className="material-symbols-outlined"
-              style={{ fontVariationSettings: "'FILL' 1" }}
+      {/* Tag Chips */}
+      <div className="flex gap-2 overflow-x-auto pb-1 -mx-6 px-6 scrollbar-none">
+        {ALL_TAGS.map((tag) => {
+          const isActive = activeTag === tag;
+          return (
+            <button
+              key={tag}
+              onClick={() => setActiveTag(isActive ? "" : tag)}
+              className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors ${
+                isActive
+                  ? "bg-tertiary/20 text-tertiary font-bold"
+                  : "bg-surface-container text-on-surface-variant hover:bg-surface-container-high"
+              }`}
             >
-              workspace_premium
+              #{tag}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Content */}
+      {isFiltering ? (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-semibold text-on-surface-variant">
+              找到 {filtered.length} 个工具
             </span>
+            <button onClick={clearFilters} className="text-xs text-primary font-semibold">
+              清除筛选
+            </button>
           </div>
-          <h3 className="font-headline text-xl font-bold mb-2">Premium Consultation</h3>
-          <p className="font-body text-sm text-on-surface-variant leading-relaxed">
-            Book a 1-on-1 session with our architectural leads for structural planning.
-          </p>
-        </div>
-        <button className="mt-6 py-3 w-full bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-xl font-semibold shadow-lg shadow-primary/20 active:scale-95 transition-all">
-          Schedule Now
-        </button>
-      </div>
 
-      {/* Product Grid */}
-      <div className="grid grid-cols-1 gap-4">
-        {filtered.map((item) => (
-          <div
-            key={item.id}
-            className="group bg-surface-container-lowest rounded-xl overflow-hidden flex gap-4 items-center p-4 shadow-[0_8px_24px_-4px_rgba(25,28,30,0.04)] cursor-pointer hover:bg-slate-50 transition-colors"
-          >
-            <div className="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
-              <img
-                src={item.imageUrl}
-                alt={item.title}
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-              />
+          {filtered.length > 0 ? (
+            <div className="grid grid-cols-2 gap-3">
+              {filtered.map((tool) => (
+                <ToolCard key={tool.id} tool={tool} />
+              ))}
             </div>
-            <div className="flex-1">
-              <div className="flex justify-between items-start mb-1">
-                <h4 className="font-headline font-bold text-on-surface">{item.title}</h4>
-                <span className="text-primary font-bold text-sm">{item.price}</span>
-              </div>
-              <p className="text-xs text-on-surface-variant font-label uppercase tracking-wider mb-2">
-                {item.category}
-              </p>
-              <div className="flex items-center gap-1 text-tertiary">
-                <span
-                  className="material-symbols-outlined text-[16px]"
-                  style={{ fontVariationSettings: "'FILL' 1" }}
-                >
-                  star
-                </span>
-                <span className="text-xs font-bold">
-                  {item.rating} ({item.reviews} reviews)
-                </span>
-              </div>
+          ) : (
+            <div className="text-center py-16 text-on-surface-variant">
+              <span className="material-symbols-outlined text-4xl mb-3 block">search_off</span>
+              <p className="text-sm font-medium">未找到相关工具</p>
             </div>
-          </div>
-        ))}
-        {filtered.length === 0 && (
-          <div className="text-center py-16 text-on-surface-variant">
-            <span className="material-symbols-outlined text-4xl mb-3 block">search_off</span>
-            <p className="text-sm font-medium">No results found</p>
-          </div>
-        )}
-      </div>
-
-      {/* Promo Banner */}
-      <div className="p-6 rounded-xl bg-secondary-container relative overflow-hidden">
-        <div className="relative z-10">
-          <h3 className="font-headline text-xl font-bold text-on-secondary-fixed mb-2">
-            Sustainable Living
-          </h3>
-          <p className="font-body text-on-secondary-fixed-variant text-sm mb-4">
-            Our new collection of zero-impact materials is here. Build the future without the footprint.
-          </p>
-          <button className="bg-surface-container-lowest text-primary px-6 py-2 rounded-full font-bold text-sm hover:bg-surface transition-colors">
-            Learn More
-          </button>
+          )}
         </div>
-        <div className="absolute right-0 top-0 h-full w-1/3 bg-primary/10 -skew-x-12 transform translate-x-10" />
-      </div>
+      ) : (
+        <div className="space-y-8">
+          <section>
+            <SectionHeader icon="local_fire_department" label="热门工具" />
+            <div className="grid grid-cols-2 gap-3">
+              {trending.map((tool) => (
+                <ToolCard key={tool.id} tool={tool} />
+              ))}
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader icon="star" label="好评最高" />
+            <div className="grid grid-cols-2 gap-3">
+              {topRated.map((tool) => (
+                <ToolCard key={tool.id} tool={tool} />
+              ))}
+            </div>
+          </section>
+
+          {newTools.length > 0 && (
+            <section>
+              <SectionHeader icon="new_releases" label="最新上线" />
+              <div className="grid grid-cols-2 gap-3">
+                {newTools.map((tool) => (
+                  <ToolCard key={tool.id} tool={tool} />
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+      )}
     </>
   );
 }

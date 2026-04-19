@@ -1,4 +1,5 @@
 import { currentUser, profileSettingsGrid } from "@/lib/mock-data";
+import HistoryPanel from "@/components/HistoryPanel";
 
 export default function ProfilePage() {
   return (
@@ -88,6 +89,9 @@ export default function ProfilePage() {
           </div>
         </div>
       </section>
+
+      {/* History */}
+      <HistoryPanel />
 
       {/* Logout */}
       <div className="pb-4">
