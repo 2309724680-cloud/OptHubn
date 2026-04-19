@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Architectural Utility - Discover</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#2d3133",
+                        "inverse-primary": "#b4c5ff",
+                        "on-primary-container": "#eeefff",
+                        "tertiary": "#943700",
+                        "on-surface-variant": "#434655",
+                        "surface-container-low": "#f2f4f6",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-tertiary-container": "#ffede6",
+                        "outline": "#737686",
+                        "on-secondary-container": "#54647a",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-dim": "#d8dadc",
+                        "surface-container-high": "#e6e8ea",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "error": "#ba1a1a",
+                        "background": "#f7f9fb",
+                        "surface-bright": "#f7f9fb",
+                        "surface-container": "#eceef0",
+                        "primary": "#004ac6",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "inverse-on-surface": "#eff1f3",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "secondary": "#505f76",
+                        "primary-fixed": "#dbe1ff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "secondary-container": "#d0e1fb",
+                        "on-secondary-fixed": "#0b1c30",
+                        "primary-container": "#2563eb",
+                        "on-primary-fixed": "#00174b",
+                        "on-background": "#191c1e",
+                        "secondary-fixed": "#d3e4fe",
+                        "surface-tint": "#0053db",
+                        "tertiary-container": "#bc4800",
+                        "on-tertiary-fixed": "#360f00",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "tertiary-fixed": "#ffdbcd",
+                        "on-primary": "#ffffff",
+                        "surface": "#f7f9fb",
+                        "outline-variant": "#c3c6d7",
+                        "on-surface": "#191c1e",
+                        "error-container": "#ffdad6",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#e0e3e5",
+                        "surface-variant": "#e0e3e5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-nav {
+            backdrop-filter: blur(20px);
+        }
+        body {
+            background-color: #f7f9fb;
+            color: #191c1e;
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-xl flex justify-between items-center w-full px-6 py-4">
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-slate-100/50 dark:hover:bg-slate-800/50 transition-colors active:scale-95 duration-200 rounded-full">
+<span class="material-symbols-outlined text-blue-600 dark:text-blue-400">menu</span>
+</button>
+<h1 class="font-manrope font-black text-blue-700 dark:text-blue-400 font-manrope font-bold text-lg tracking-tight">Architectural Utility</h1>
+</div>
+<div class="flex items-center">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-surface-container-highest shadow-sm">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Close-up portrait of a professional man in a clean studio setting with soft lighting and a neutral grey background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkCxl0HxGI4y_vkZTBn8gunPM1jVArYRJLqKZH4QbiAcNi4Z1DRMKSmxX9jZyCTINw2TGSY9I3AppDD4LlSDFWm3ssgNoFZ9TWRISujt9h-FI8M1H8bwQwR5Ed1jKbYwBV6pwmo9r-P6cB55VTjqRGC_fNuxe_xW_16cFco71BWzLdQE9mta-goNXCMsyKL-xxDF-z3GLy8HFD578gnOqS7FuRUzaooU0Fxo38PH39qtqINCyPPgHZF_PYR0unyNWVz-e9eLgdJRU"/>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-7xl mx-auto">
+<!-- Hero Section / Search Bar -->
+<section class="mb-10">
+<h2 class="font-headline font-extrabold text-4xl mb-6 text-on-surface tracking-tight">Explore the <span class="text-primary">Ecosystem.</span></h2>
+<div class="relative group">
+<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">search</span>
+</div>
+<input class="w-full pl-12 pr-4 py-5 bg-surface-container-low rounded-xl border-none focus:ring-1 focus:ring-primary focus:bg-surface-container-lowest transition-all duration-300 shadow-sm font-body text-on-surface placeholder:text-outline/60" placeholder="Search services, items or spaces..." type="text"/>
+</div>
+</section>
+<!-- Category Filters -->
+<section class="mb-10 overflow-x-auto no-scrollbar flex gap-3 pb-2">
+<button class="flex items-center gap-2 px-5 py-3 bg-primary-container text-on-primary-container rounded-full font-label text-sm font-semibold whitespace-nowrap shadow-md">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+                All Results
+            </button>
+<button class="flex items-center gap-2 px-5 py-3 bg-surface-container-lowest text-on-surface-variant rounded-full font-label text-sm font-semibold whitespace-nowrap hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[20px]">architecture</span>
+                Design
+            </button>
+<button class="flex items-center gap-2 px-5 py-3 bg-surface-container-lowest text-on-surface-variant rounded-full font-label text-sm font-semibold whitespace-nowrap hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[20px]">event_seat</span>
+                Furnishing
+            </button>
+<button class="flex items-center gap-2 px-5 py-3 bg-surface-container-lowest text-on-surface-variant rounded-full font-label text-sm font-semibold whitespace-nowrap hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[20px]">lightbulb</span>
+                Lighting
+            </button>
+<button class="flex items-center gap-2 px-5 py-3 bg-surface-container-lowest text-on-surface-variant rounded-full font-label text-sm font-semibold whitespace-nowrap hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[20px]">landscape</span>
+                Outdoor
+            </button>
+</section>
+<!-- Bento Grid Layout -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Large Feature Card -->
+<div class="md:col-span-8 group relative overflow-hidden rounded-xl bg-surface-container-lowest">
+<div class="aspect-[16/10] overflow-hidden">
+<img alt="Modern Architecture" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Modern minimalist architectural interior with vast glass walls, polished concrete floors and dramatic evening shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCo6UGviDrlPJCL1WHYMkRa8w74zpA5iTaIXa2w3XejN-WF--5C1u2LaI676PTKChJmUhwb7vTtYgxq_kqk2LCcR2eTh04BG-P6bTjAvRPcsqgHVUE0tXC55oQ4BOMVsHTgswKsEXVqxjYyLT7id7_lGRG56BDpHcwWL0O2MzgC8zq9fo4Ds_UWmZvffL6_ZjSG6c4puSnzS06DQdFf8pWcnojP0c_-fGdrMChYFsW41o8mnoKXm7txl-V_pGkvPAmYPn60xIXPfik"/>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-8 flex flex-col justify-end">
+<span class="font-label text-white/70 text-xs mb-2 tracking-widest uppercase">Featured Studio</span>
+<h3 class="font-headline text-2xl text-white font-bold mb-2">The Glass Pavilion Concept</h3>
+<p class="font-body text-white/80 text-sm max-w-md">Exploring the boundaries between interior comfort and the wild serenity of the Pacific coast.</p>
+</div>
+</div>
+<!-- Side Card 1 -->
+<div class="md:col-span-4 bg-surface-container-low rounded-xl p-6 flex flex-col justify-between border border-outline-variant/10">
+<div>
+<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-4">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</div>
+<h3 class="font-headline text-xl font-bold mb-2">Premium Consultation</h3>
+<p class="font-body text-sm text-on-surface-variant leading-relaxed">Book a 1-on-1 session with our architectural leads for structural planning.</p>
+</div>
+<button class="mt-6 py-3 w-full bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-xl font-semibold shadow-lg shadow-primary/20 active:scale-95 transition-all">
+                    Schedule Now
+                </button>
+</div>
+<!-- Grid Items -->
+<div class="md:col-span-4 group bg-surface-container-lowest rounded-xl overflow-hidden">
+<div class="aspect-square overflow-hidden">
+<img alt="Lighting fixture" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Sleek contemporary pendant light hanging in a minimalist room with warm ambient glow and soft textures" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDHWq45RenjftH1ZtRtAwdfC_RDdV2Z8B4kb-7ousNl_EJa0DTysHLpZPoLjFu2LU-5VIShOdlyES59WDVdWo4X4Qs7GA-dQ_wVEmY8PTyEfZVGUJYY0IEOhwjZZG8z2iB2g2AY13X801NxKcKaM1pA31nhzM7RG8A5QC1tnwDAmin39kl_RJ5cazRUjVPWF2TvqGvXw5gyduuKmZSgw54joSJgm7qqOegopsV1XGaOSzgvY6ZCQY1AivULIDHxiX8EClBBNTko04"/>
+</div>
+<div class="p-5">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-headline font-bold text-on-surface">Linear Nebula Light</h4>
+<span class="text-primary font-bold">$1,240</span>
+</div>
+<p class="text-xs text-on-surface-variant font-label uppercase tracking-wider mb-3">Lighting / Studio X</p>
+<div class="flex items-center gap-1 text-tertiary">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-xs font-bold">4.9 (120 reviews)</span>
+</div>
+</div>
+</div>
+<div class="md:col-span-4 group bg-surface-container-lowest rounded-xl overflow-hidden">
+<div class="aspect-square overflow-hidden">
+<img alt="Chair design" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Ergonomic minimalist wooden chair with curved backrest on a clean white background with soft shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-uvNbxP_fJkeyZdGPkn7ThRxsiR8OhQidgSTwM7KiRmrM_xhX95DKgPVyTsKBnCqgUlzm_CeBbaW7r1095oCAx7ffEUnBEDhxZ1Ye_dznF2NQALHb7CHZE-3h6MquIlMEh_vxajBW5QsvN0ty6FNc1_Tx77-6D75PIxJJfHkqUvY8ZGjTcGea0n2oUkbAJsltkLT0V5NlHCtG4q0IMgRoX83w5hvsO3V1_22pfzzExsH0PUwMWawEq955F8aywcT3eWHT3n36n0k"/>
+</div>
+<div class="p-5">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-headline font-bold text-on-surface">Organic Curve Seat</h4>
+<span class="text-primary font-bold">$890</span>
+</div>
+<p class="text-xs text-on-surface-variant font-label uppercase tracking-wider mb-3">Furnishing / Artisan Ltd</p>
+<div class="flex items-center gap-1 text-tertiary">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-xs font-bold">4.8 (85 reviews)</span>
+</div>
+</div>
+</div>
+<div class="md:col-span-4 group bg-surface-container-lowest rounded-xl overflow-hidden">
+<div class="aspect-square overflow-hidden">
+<img alt="Smart Home" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Integrated smart home control panel on a sleek kitchen wall showing ambient temperature and lighting controls" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDV2f-lgl1TWvP0IK6lJKzhOo3A4u9EA8ObT2rrrx_xKAvaIWELuaPfmuvM7Imsr_0xuNpkJlmwE4pxAmVcx7W41bArWjsacOdh5q9HAedlv2HU9AFFzEAHFh6agOzoU7-7K-UdXz_NnvDiHJNM6mJRa1lG3paFNWRhpxKKouFqzQv3uk4MVuBvmOTpiLrFP_RIfM4PrBReBWc1otUu-l3MCz7FJL5iGYZQ8JontsFTFbkvDPuf7jPAQ7MvSLfLUvX3mdSIfxYHaZg"/>
+</div>
+<div class="p-5">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-headline font-bold text-on-surface">Integrated Hub V2</h4>
+<span class="text-primary font-bold">$450</span>
+</div>
+<p class="text-xs text-on-surface-variant font-label uppercase tracking-wider mb-3">Smart / Omni-Link</p>
+<div class="flex items-center gap-1 text-tertiary">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-xs font-bold">5.0 (42 reviews)</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Promotional Banner -->
+<section class="mt-12 p-8 rounded-xl bg-secondary-container relative overflow-hidden">
+<div class="relative z-10 md:w-1/2">
+<h3 class="font-headline text-2xl font-bold text-on-secondary-fixed mb-2">Sustainable Living</h3>
+<p class="font-body text-on-secondary-fixed-variant mb-6">Our new collection of zero-impact materials is here. Build the future without the footprint.</p>
+<button class="bg-surface-container-lowest text-primary px-6 py-2 rounded-full font-bold text-sm hover:bg-surface transition-colors">Learn More</button>
+</div>
+<div class="absolute right-0 top-0 h-full w-1/3 bg-primary/10 -skew-x-12 transform translate-x-10"></div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl docked full-width bottom-0 rounded-t-[1.5rem] shadow-[0_-8px_24px_-4px_rgba(25,28,30,0.06)] flex justify-around items-center px-4 pb-safe pt-3">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-800/40 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-inter text-[10px] font-semibold uppercase tracking-[0.05em] mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-200 rounded-xl px-4 py-2 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="explore" style="font-variation-settings: 'FILL' 1;">explore</span>
+<span class="font-inter text-[10px] font-semibold uppercase tracking-[0.05em] mt-1">Discover</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-800/40 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+<span class="font-inter text-[10px] font-semibold uppercase tracking-[0.05em] mt-1">Messages</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-800/40 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-inter text-[10px] font-semibold uppercase tracking-[0.05em] mt-1">Profile</span>
+</a>
+</nav>
+</body></html>

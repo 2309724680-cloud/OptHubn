@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Architectural Utility - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#2d3133",
+                        "inverse-primary": "#b4c5ff",
+                        "on-primary-container": "#eeefff",
+                        "tertiary": "#943700",
+                        "on-surface-variant": "#434655",
+                        "surface-container-low": "#f2f4f6",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-tertiary-container": "#ffede6",
+                        "outline": "#737686",
+                        "on-secondary-container": "#54647a",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-dim": "#d8dadc",
+                        "surface-container-high": "#e6e8ea",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "error": "#ba1a1a",
+                        "background": "#f7f9fb",
+                        "surface-bright": "#f7f9fb",
+                        "surface-container": "#eceef0",
+                        "primary": "#004ac6",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "inverse-on-surface": "#eff1f3",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "secondary": "#505f76",
+                        "primary-fixed": "#dbe1ff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "secondary-container": "#d0e1fb",
+                        "on-secondary-fixed": "#0b1c30",
+                        "primary-container": "#2563eb",
+                        "on-primary-fixed": "#00174b",
+                        "on-background": "#191c1e",
+                        "secondary-fixed": "#d3e4fe",
+                        "surface-tint": "#0053db",
+                        "tertiary-container": "#bc4800",
+                        "on-tertiary-fixed": "#360f00",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "tertiary-fixed": "#ffdbcd",
+                        "on-primary": "#ffffff",
+                        "surface": "#f7f9fb",
+                        "outline-variant": "#c3c6d7",
+                        "on-surface": "#191c1e",
+                        "error-container": "#ffdad6",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#e0e3e5",
+                        "surface-variant": "#e0e3e5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-nav {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .soul-gradient {
+            background: linear-gradient(135deg, #004ac6 0%, #2563eb 100%);
+        }
+        .ambient-shadow {
+            shadow-color: #191c1e;
+            box-shadow: 0 8px 24px -4px rgba(25, 28, 30, 0.06);
+        }
+        body {
+            background-color: #f7f9fb;
+            color: #191c1e;
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface antialiased">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-xl flex justify-between items-center w-full px-6 py-4">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-blue-600 dark:text-blue-400 cursor-pointer active:scale-95 duration-200" data-icon="menu">menu</span>
+<h1 class="font-manrope font-black text-blue-700 dark:text-blue-400 text-lg tracking-tight">Architectural Utility</h1>
+</div>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/10 active:scale-95 duration-200">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Professional portrait of a user with a clean, blurred office background, soft natural lighting, high-end editorial style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2ziIADRqOOIXCzgnXR-FhwRXWraA9BsQ1o7jjAZwP8yd3fG1qymzvxd-FwnQw2Gyzf2bPlDoYogQ6loCSnq7uYU1LKaXx9zn-k_6YzyKcZ94kKTVtmYhjtaFwvE2u0Zg5uYCIabJclRErFI2l6KZr0vglzymZhQKc1I0AikQvUIHCfLfyqo5lRnO1-7qYfI9GbUGBR1YUZGSxTkKHHpT2cBm4o-4dCkpBdpYbOXJASBVPpyR-DJwoeln0PldtUiuqfYicbvb5LQI"/>
+</div>
+</header>
+<main class="pt-24 pb-32 px-6">
+<!-- Welcome Section -->
+<section class="mb-10">
+<div class="inline-block px-3 py-1 bg-primary/10 rounded-full mb-4">
+<span class="font-label text-[0.6875rem] font-semibold uppercase tracking-[0.05em] text-primary">Overview</span>
+</div>
+<h2 class="font-headline text-[3.5rem] font-extrabold leading-tight tracking-tight text-on-surface mb-2">Hello, <span class="text-primary">Alex</span></h2>
+<p class="font-body text-on-surface-variant text-sm max-w-[280px] leading-relaxed">Your architectural landscape is performing at 94% efficiency today.</p>
+</section>
+<!-- Quick Actions Bento Grid -->
+<section class="grid grid-cols-2 gap-4 mb-10">
+<div class="col-span-2 bg-surface-container-lowest p-6 rounded-xl ambient-shadow flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label text-[0.6875rem] font-semibold uppercase tracking-[0.05em] text-on-surface-variant mb-1">Current Task</span>
+<span class="font-headline font-bold text-lg text-on-surface">Design Review</span>
+</div>
+<div class="w-12 h-12 soul-gradient rounded-xl flex items-center justify-center text-on-primary shadow-lg active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="rocket_launch">rocket_launch</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-5 rounded-xl flex flex-col justify-between h-36 active:scale-95 transition-transform duration-200">
+<div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="draw">draw</span>
+</div>
+<span class="font-headline font-bold text-sm">New Draft</span>
+</div>
+<div class="bg-surface-container-low p-5 rounded-xl flex flex-col justify-between h-36 active:scale-95 transition-transform duration-200">
+<div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="cloud_done">cloud_done</span>
+</div>
+<span class="font-headline font-bold text-sm">Sync Assets</span>
+</div>
+</section>
+<!-- Featured / Recent Activity Glass Card -->
+<section>
+<div class="flex justify-between items-end mb-6">
+<h3 class="font-headline text-xl font-bold tracking-tight">Recent Projects</h3>
+<span class="font-label text-[0.6875rem] font-semibold uppercase tracking-[0.05em] text-primary cursor-pointer">View All</span>
+</div>
+<div class="space-y-4">
+<!-- Activity Item 1 -->
+<div class="group relative overflow-hidden rounded-xl bg-surface-container-lowest p-4 flex gap-4 items-center">
+<div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Modern minimalist skyscraper architectural facade with blue glass reflections and sharp geometric lines" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHIlPE5tiOuLfXCP2VDw5oIaRjJoip46Mz0PyTLGe_Et-aYprVQXtDkt1WWt3EaRGJiIxwcoyRWzG4FZcA_iUdzmSbqzMtl9kTmvLKtAqrO0zwSf70lVJBiaSR9Ty5Ml_v-MNZha9GtdB2DTt-pTECX3VyKkoEnPARW_pky809JzJaFUoBeVNRhhfuDpZGGH8FA32mk9bv13jJ447466ShEOUXZFKOOS2dh-EIZvuR7TrYnW7SxZu0kZdXRtg3FUO5j1j2mB4JNn8"/>
+</div>
+<div class="flex-1">
+<p class="font-headline font-bold text-on-surface text-base">Skyline Nexus</p>
+<p class="font-body text-on-surface-variant text-xs mt-1">Edited 2 hours ago</p>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors" data-icon="chevron_right">chevron_right</span>
+</div>
+<!-- Activity Item 2 -->
+<div class="group relative overflow-hidden rounded-xl bg-surface-container-low p-4 flex gap-4 items-center">
+<div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Abstract interior architectural detail with curved white walls and soft ambient shadows in a museum setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaT22zzJ7nVvG5wbLqDuhN8SqVqTPKbgIUaEzlg6jO41xVMtkxlVYQwNpPJ7MH6kAdfC5mzNQ0--eeYYk77DwwZpR29QgJfjUTl4MUKpWzKm95I-z-0Q2hg4tIireTGboXWTCMjngO1hum5JnNzdQ6KYb7nP0Ch4xXniVUJccyxKv_PSwBrz7JiTXoXtLNG4Qfi4voxVbtbOo-DcQHLbIOOYPNLTA0na2-ZvN3uW2JhhGlx6GLm-4SnZ-wUjpcomDyeC9_JGDDcJQ"/>
+</div>
+<div class="flex-1">
+<p class="font-headline font-bold text-on-surface text-base">Atrium Flow</p>
+<p class="font-body text-on-surface-variant text-xs mt-1">Completed yesterday</p>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+</section>
+<!-- Floating Action Button - Only for Primary Intent -->
+<div class="fixed bottom-24 right-6 z-40">
+<button class="w-16 h-16 rounded-full soul-gradient text-on-primary flex items-center justify-center ambient-shadow active:scale-90 transition-transform duration-200">
+<span class="material-symbols-outlined text-3xl" data-icon="add" style="font-variation-settings: 'FILL' 0;">add</span>
+</button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-10 pt-3 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl rounded-t-[1.5rem] shadow-[0_-8px_24px_-4px_rgba(25,28,30,0.06)]">
+<!-- Home (Active) -->
+<a class="flex flex-col items-center justify-center bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-200 rounded-xl px-4 py-2 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-inter text-[10px] font-semibold uppercase tracking-[0.05em]">Home</span>
+</a>
+<!-- Discover -->
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-800/40 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="explore">explore</span>
+<span class="font-inter text-[10px] font-semibold uppercase tracking-[0.05em]">Discover</span>
+</a>
+<!-- Messages -->
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-800/40 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="chat">chat</span>
+<span class="font-inter text-[10px] font-semibold uppercase tracking-[0.05em]">Messages</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-800/40 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="person">person</span>
+<span class="font-inter text-[10px] font-semibold uppercase tracking-[0.05em]">Profile</span>
+</a>
+</nav>
+</body></html>
