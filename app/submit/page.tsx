@@ -141,15 +141,12 @@ export default function SubmitPage() {
             </div>
             <div>
               <label className={labelCls}>Registry URL</label>
-              <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline text-[20px]">link</span>
-                <input
-                  value={form.registryUrl}
-                  onChange={(e) => update("registryUrl", e.target.value)}
-                  className={`${inputCls} pl-12`}
-                  placeholder="registry.hub.docker.com/username/repo:tag"
-                />
-              </div>
+              <input
+                value={form.registryUrl}
+                onChange={(e) => update("registryUrl", e.target.value)}
+                className={inputCls}
+                placeholder="registry.hub.docker.com/username/repo:tag"
+              />
             </div>
           </div>
         </div>
