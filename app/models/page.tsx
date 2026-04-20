@@ -30,11 +30,11 @@ export default function ModelsPage() {
 
       {/* Search */}
       <div className="relative">
-        <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline text-[20px]">search</span>
+        <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline text-[20px]" translate="no" aria-hidden="true">search</span>
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-11 pr-4 py-3.5 bg-surface-container-low rounded-2xl border-none font-body text-sm text-on-surface placeholder:text-on-surface-variant/40 outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-secondary/30 transition-all"
+          className="w-full pl-11 pr-4 py-3.5 bg-surface-container-low rounded-2xl border-none font-body text-sm text-on-surface placeholder:text-on-surface-variant/40 outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-secondary/30"
           placeholder="Search models, categories..."
         />
         {search && (
