@@ -28,17 +28,6 @@ export default function ModelsPage() {
         <p className="text-on-surface-variant">Browse and compare NPU-optimized models.</p>
       </section>
 
-      {/* Search */}
-      <div className="relative">
-        <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline">search</span>
-        <input
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-12 pr-4 py-4 bg-surface-container-low rounded-xl border-none outline-none focus:ring-1 focus:ring-secondary transition-all text-on-surface placeholder:text-outline/60"
-          placeholder="Search models..."
-        />
-      </div>
-
       {/* Filters */}
       <div className="space-y-3">
         <div className="flex gap-2 overflow-x-auto pb-1 -mx-4 px-4 scrollbar-none">
