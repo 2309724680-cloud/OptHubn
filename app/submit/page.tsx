@@ -53,9 +53,11 @@ export default function SubmitPage() {
                     {s.icon}
                   </span>
                 </div>
-                <span className={`font-headline font-bold hidden sm:block ${i === step ? "text-base text-primary" : "text-xs text-on-surface-variant"}`}>
-                  {s.label}
-                </span>
+                {i === step && (
+                  <span className="font-headline font-bold text-sm text-primary hidden sm:block">
+                    {s.label}
+                  </span>
+                )}
               </button>
               {i < steps.length - 1 && (
                 <div className="flex-1 h-px bg-surface-container-highest mx-4 hidden sm:block" />
