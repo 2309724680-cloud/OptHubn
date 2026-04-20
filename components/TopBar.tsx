@@ -44,6 +44,10 @@ export default function TopBar() {
                     <span className="material-symbols-outlined text-[18px]">person</span>
                     个人主页
                   </a>
+                  <a href="/account" className="flex items-center gap-2 px-4 py-3 text-sm text-on-surface hover:bg-surface-container-low transition-colors">
+                    <span className="material-symbols-outlined text-[18px]">manage_accounts</span>
+                    账号管理
+                  </a>
                   <button
                     onClick={() => { logout(); setShowMenu(false); }}
                     className="w-full flex items-center gap-2 px-4 py-3 text-sm text-error hover:bg-error-container/20 transition-colors"
