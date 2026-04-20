@@ -9,7 +9,7 @@ const steps = [
 ];
 
 const inputCls = "w-full bg-surface-container-low rounded-lg py-3.5 px-4 font-body text-sm text-on-surface placeholder:text-outline/50 outline-none focus:ring-2 focus:ring-secondary transition-shadow";
-const labelCls = "block font-label text-[11px] font-bold uppercase tracking-widest text-on-surface-variant mb-2";
+const labelCls = "block font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-2";
 
 export default function SubmitPage() {
   const [step, setStep] = useState(0);
@@ -34,7 +34,7 @@ export default function SubmitPage() {
         <h2 className="font-headline text-4xl md:text-5xl font-extrabold text-primary tracking-tight mb-3">
           Submit Solution
         </h2>
-        <p className="font-body text-base text-on-surface-variant mb-8 max-w-xl leading-relaxed">
+        <p className="font-body text-lg text-on-surface-variant mb-8 max-w-xl leading-loose">
           Deploy your optimized AI models to our high-performance NPU cluster in three simple steps.
         </p>
 
@@ -53,7 +53,7 @@ export default function SubmitPage() {
                     {s.icon}
                   </span>
                 </div>
-                <span className={`font-headline font-bold text-sm hidden sm:block ${i === step ? "text-primary" : "text-on-surface-variant"}`}>
+                <span className={`font-headline font-bold text-base hidden sm:block ${i === step ? "text-primary" : "text-on-surface-variant"}`}>
                   {s.label}
                 </span>
               </button>
@@ -132,8 +132,8 @@ export default function SubmitPage() {
                   >
                     {icon}
                   </span>
-                  <span className="font-headline font-semibold text-sm text-primary mb-1">{title}</span>
-                  <span className="font-body text-xs text-on-surface-variant leading-relaxed">{desc}</span>
+                  <span className="font-headline font-semibold text-base text-primary mb-1">{title}</span>
+                  <span className="font-body text-sm text-on-surface-variant leading-relaxed">{desc}</span>
                 </label>
               ))}
             </div>
