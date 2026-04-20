@@ -23,10 +23,29 @@ export default function ModelsPage() {
 
   return (
     <>
-      <section className="pt-2 space-y-2">
+      <section className="pt-2 space-y-1">
         <h2 className="font-headline font-extrabold text-3xl text-primary tracking-tight">Model Leaderboard</h2>
-        <p className="text-on-surface-variant">Browse and compare NPU-optimized models.</p>
+        <p className="font-body text-sm text-on-surface-variant">Browse and compare NPU-optimized models.</p>
       </section>
+
+      {/* Search */}
+      <div className="relative">
+        <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline text-[20px]">search</span>
+        <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full pl-11 pr-4 py-3.5 bg-surface-container-lowest rounded-2xl border border-outline-variant/30 font-body text-sm text-on-surface placeholder:text-outline/50 outline-none focus:ring-2 focus:ring-secondary/40 transition-shadow shadow-sm"
+          placeholder="Search models, categories..."
+        />
+        {search && (
+          <button
+            onClick={() => setSearch("")}
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface transition-colors"
+          >
+            <span className="material-symbols-outlined text-[18px]">close</span>
+          </button>
+        )}
+      </div>
 
       {/* Filters */}
       <div className="space-y-3">
