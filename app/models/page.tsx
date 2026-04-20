@@ -34,7 +34,7 @@ export default function ModelsPage() {
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-11 pr-4 py-3.5 bg-surface-container-lowest rounded-2xl border border-outline-variant/30 font-body text-sm text-on-surface placeholder:text-outline/50 outline-none focus:ring-2 focus:ring-secondary/40 transition-shadow shadow-sm"
+          className="w-full pl-11 pr-4 py-3.5 bg-surface-container-low rounded-2xl border-none font-body text-sm text-on-surface placeholder:text-on-surface-variant/40 outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-secondary/30 transition-all"
           placeholder="Search models, categories..."
         />
         {search && (
