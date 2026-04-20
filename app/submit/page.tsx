@@ -53,7 +53,7 @@ export default function SubmitPage() {
                     {s.icon}
                   </span>
                 </div>
-                <span className={`font-headline font-bold text-base hidden sm:block ${i === step ? "text-primary" : "text-on-surface-variant"}`}>
+                <span className={`font-headline font-bold hidden sm:block ${i === step ? "text-base text-primary" : "text-xs text-on-surface-variant"}`}>
                   {s.label}
                 </span>
               </button>
