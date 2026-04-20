@@ -20,7 +20,7 @@ export default function ToolPage() {
   const { addHistory } = useHistory();
 
   async function handleSubmit() {
-    if (!input.trim()) return;
+    if (!input.trim() || !tool) return;
     setLoading(true);
     setError("");
     setOutput("");
