@@ -4,36 +4,36 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const navItems = [
-  { href: "/", label: "Home", icon: "home" },
-  { href: "/discover", label: "Discover", icon: "explore" },
-  { href: "/messages", label: "Messages", icon: "chat" },
-  { href: "/profile", label: "Profile", icon: "person" },
+  { href: "/", label: "Home", icon: "home_storage" },
+  { href: "/models", label: "Models", icon: "model_training" },
+  { href: "/submit", label: "Submit", icon: "add_chart" },
+  { href: "/profile", label: "Profile", icon: "person_search" },
 ];
 
 export default function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 w-full z-50 bg-white/80 backdrop-blur-xl rounded-t-[1.5rem] shadow-[0_-8px_24px_-4px_rgba(25,28,30,0.06)] flex justify-around items-center px-4 pb-8 pt-3">
+    <nav className="md:hidden fixed bottom-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-[#f8f9fb]/80 backdrop-blur-xl shadow-[0_-4px_24px_0_rgba(62,1,44,0.06)] rounded-t-2xl">
       {navItems.map(({ href, label, icon }) => {
         const isActive = pathname === href;
         return (
           <Link
             key={href}
             href={href}
-            className={`flex flex-col items-center justify-center px-4 py-2 rounded-xl transition-all duration-200 active:scale-90 ${
+            className={`flex flex-col items-center justify-center px-3 py-1 rounded-xl transition-all active:scale-90 duration-300 ${
               isActive
-                ? "bg-blue-50 text-blue-700"
-                : "text-slate-400 hover:bg-slate-50"
+                ? "text-secondary bg-secondary/10"
+                : "text-primary/60 hover:text-secondary"
             }`}
           >
             <span
-              className="material-symbols-outlined mb-1"
+              className="material-symbols-outlined"
               style={isActive ? { fontVariationSettings: "'FILL' 1" } : undefined}
             >
               {icon}
             </span>
-            <span className="text-[10px] font-semibold uppercase tracking-[0.05em]">
+            <span className="font-label text-[10px] font-bold uppercase tracking-widest mt-0.5">
               {label}
             </span>
           </Link>

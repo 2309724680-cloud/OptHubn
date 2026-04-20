@@ -1,17 +1,20 @@
-import { currentUser } from "@/lib/mock-data";
-
 export default function TopBar() {
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-slate-50/80 backdrop-blur-xl flex justify-between items-center px-6 py-4">
-      <div className="flex items-center gap-4">
-        <span className="material-symbols-outlined text-blue-600 cursor-pointer">menu</span>
+    <header className="fixed top-0 w-full z-50 flex items-center justify-between px-6 py-4 bg-[#f8f9fb]/90 backdrop-blur-xl shadow-sm shadow-primary/5">
+      <div className="flex items-center gap-3">
+        <span className="material-symbols-outlined text-primary">analytics</span>
+        <span className="font-headline font-black text-xl tracking-tighter text-primary">NPU HUB</span>
       </div>
-      <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-fixed">
-        <img
-          src={currentUser.avatarUrl}
-          alt={currentUser.name}
-          className="w-full h-full object-cover"
-        />
+
+      <nav className="hidden md:flex items-center gap-8">
+        <a href="/" className="font-headline font-semibold text-secondary hover:opacity-80 transition-opacity">Home</a>
+        <a href="/models" className="font-headline font-semibold text-primary-container hover:opacity-80 transition-opacity">Models</a>
+        <a href="/submit" className="font-headline font-semibold text-primary-container hover:opacity-80 transition-opacity">Submit</a>
+        <span className="material-symbols-outlined text-primary cursor-pointer hover:opacity-80 transition-opacity">account_circle</span>
+      </nav>
+
+      <div className="md:hidden">
+        <span className="material-symbols-outlined text-primary">menu</span>
       </div>
     </header>
   );

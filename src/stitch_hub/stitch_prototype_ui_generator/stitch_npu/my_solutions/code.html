@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Profile - NPU HUB</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Inter:wght@400;500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed": "#ffd9e1",
+                        "primary-container": "#591942",
+                        "surface-variant": "#e0e3e5",
+                        "primary-fixed-dim": "#ffaed9",
+                        "on-primary": "#ffffff",
+                        "surface": "#f8f9fb",
+                        "tertiary-fixed-dim": "#a2d487",
+                        "secondary-fixed-dim": "#ffb1c5",
+                        "inverse-primary": "#ffaed9",
+                        "tertiary": "#072300",
+                        "surface-container": "#eceef0",
+                        "surface-tint": "#8e4670",
+                        "surface-container-low": "#f2f4f6",
+                        "on-error-container": "#93000a",
+                        "tertiary-container": "#103b00",
+                        "on-tertiary": "#ffffff",
+                        "surface-bright": "#f8f9fb",
+                        "on-error": "#ffffff",
+                        "secondary": "#b41b5c",
+                        "on-primary-fixed-variant": "#722e57",
+                        "outline-variant": "#d5c1c9",
+                        "on-secondary-fixed-variant": "#8f0045",
+                        "inverse-on-surface": "#eff1f3",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed": "#062100",
+                        "on-secondary-container": "#62002d",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#77a75f",
+                        "on-primary-container": "#d380ae",
+                        "outline": "#83737a",
+                        "secondary-container": "#fe5993",
+                        "on-background": "#191c1e",
+                        "surface-container-highest": "#e0e3e5",
+                        "background": "#f8f9fb",
+                        "inverse-surface": "#2d3133",
+                        "on-surface": "#191c1e",
+                        "primary-fixed": "#ffd8ea",
+                        "surface-dim": "#d8dadc",
+                        "on-secondary-fixed": "#3f001a",
+                        "surface-container-lowest": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed": "#3c002a",
+                        "tertiary-fixed": "#bdf1a1",
+                        "on-surface-variant": "#514349",
+                        "surface-container-high": "#e6e8ea",
+                        "primary": "#3e012c",
+                        "on-tertiary-fixed-variant": "#255013"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Plus Jakarta Sans"],
+                        "label": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-orb {
+            background: radial-gradient(circle at 30% 30%, rgba(254, 89, 147, 0.15), rgba(62, 1, 44, 0.05));
+            filter: blur(60px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex items-center justify-between px-6 py-4 bg-[#f8f9fb] dark:bg-[#3e012c] shadow-sm shadow-[#3e012c]/5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#3e012c] dark:text-[#fe5993] text-2xl hover:opacity-80 transition-opacity" data-icon="analytics">analytics</span>
+<h1 class="font-['Manrope'] font-black text-xl tracking-tighter text-[#3e012c] dark:text-white">NPU HUB</h1>
+</div>
+<div class="flex items-center">
+<span class="material-symbols-outlined text-[#591942] dark:text-[#e0e3e5] text-2xl hover:opacity-80 transition-opacity" data-icon="account_circle">account_circle</span>
+</div>
+</header>
+<main class="pt-24 px-6 max-w-7xl mx-auto relative">
+<!-- Organic Background Elements -->
+<div class="absolute -top-20 -left-20 w-96 h-96 glass-orb rounded-full -z-10"></div>
+<div class="absolute top-1/2 -right-20 w-80 h-80 glass-orb rounded-full -z-10 opacity-50"></div>
+<!-- Profile Header Section -->
+<section class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
+<div class="flex flex-col md:flex-row items-center md:items-start gap-6">
+<div class="relative">
+<div class="w-32 h-32 rounded-full overflow-hidden bg-surface-variant p-1 ring-4 ring-secondary/10">
+<img alt="User Avatar" class="w-full h-full object-cover rounded-full" data-alt="professional headshot of a middle-aged male architect with short hair and glasses against a soft grey studio background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDubwhorSduKYpRWwHT5zK-D5NeIUj1aLE-sAvpJWNQd2RiSyhUMzlGEZ_SVSjfbAeP4jBDCd5zqjcTG5B_T948jQe4Nbg4G_w0m29e0Z1Dwf9tIJ-ZQke9rtzckceCMYNlrS8dp_BYqGDU5orgdjJScbD3FOIEzzEGaKyWr7s0SO0Ur0hDNg227MlVrX3IlPcp5Es0SV640b67zzyUaEIvOSP_wtBceU8skumNd-akkPX43WcD7Vtb9L_tuihRrsnHCT-2Hap5yw"/>
+</div>
+<div class="absolute bottom-1 right-1 bg-secondary p-1.5 rounded-full border-4 border-surface text-white">
+<span class="material-symbols-outlined text-xs" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<div class="text-center md:text-left pt-2">
+<h2 class="font-headline font-extrabold text-4xl text-primary tracking-tight mb-1">Marcus Sterling</h2>
+<p class="font-body text-on-surface-variant font-medium text-lg">Lead AI Architect • DeepTrace Neural Systems</p>
+<div class="flex flex-wrap justify-center md:justify-start gap-3 mt-4">
+<span class="px-3 py-1 bg-primary/5 text-primary text-xs font-bold rounded-full uppercase tracking-wider">TensorFlow Expert</span>
+<span class="px-3 py-1 bg-primary/5 text-primary text-xs font-bold rounded-full uppercase tracking-wider">NPU Benchmarking</span>
+</div>
+</div>
+</div>
+<!-- Quick Stats -->
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-4 w-full md:w-auto">
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border-b-4 border-secondary/20">
+<p class="text-secondary font-bold text-2xl font-headline tracking-tight">142</p>
+<p class="text-on-surface-variant text-[10px] font-bold uppercase tracking-widest mt-1">Solutions</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm">
+<p class="text-primary font-bold text-2xl font-headline tracking-tight">3.8k</p>
+<p class="text-on-surface-variant text-[10px] font-bold uppercase tracking-widest mt-1">Followers</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm hidden sm:block">
+<p class="text-primary font-bold text-2xl font-headline tracking-tight">98.2</p>
+<p class="text-on-surface-variant text-[10px] font-bold uppercase tracking-widest mt-1">Trust Score</p>
+</div>
+</div>
+</section>
+<!-- Solutions List / Bento Grid -->
+<section class="mb-20">
+<div class="flex items-center justify-between mb-8">
+<h3 class="font-headline font-bold text-2xl text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" data-icon="terminal">terminal</span>
+                    Recent Submissions
+                </h3>
+<button class="bg-primary-container text-on-primary px-6 py-2 rounded-lg font-bold text-sm hover:opacity-90 transition-opacity">
+                    New Submission
+                </button>
+</div>
+<div class="space-y-4">
+<!-- Solution Item 1: Running -->
+<div class="group bg-surface-container-lowest hover:bg-surface-container-low transition-all duration-300 rounded-xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-center gap-5">
+<div class="w-12 h-12 rounded-xl bg-primary/5 flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined" data-icon="memory">memory</span>
+</div>
+<div>
+<h4 class="font-bold text-primary text-lg leading-tight group-hover:text-secondary transition-colors">ResNet-50 Optimized Core</h4>
+<p class="text-on-surface-variant text-sm mt-0.5">Model: Custom ResNet-v2 (FP16)</p>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-6">
+<div class="flex flex-col items-start md:items-end">
+<span class="text-[10px] font-bold text-on-surface-variant/60 uppercase tracking-widest">Submitted</span>
+<span class="text-sm font-semibold text-on-surface">2 mins ago</span>
+</div>
+<div class="flex items-center gap-2 bg-purple-50 text-purple-700 px-4 py-1.5 rounded-full border border-purple-100">
+<span class="w-2 h-2 rounded-full bg-purple-600 animate-pulse"></span>
+<span class="text-xs font-bold uppercase tracking-wider">Running</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors" data-icon="more_vert">more_vert</span>
+</div>
+</div>
+<!-- Solution Item 2: Completed -->
+<div class="group bg-surface-container-lowest hover:bg-surface-container-low transition-all duration-300 rounded-xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-center gap-5">
+<div class="w-12 h-12 rounded-xl bg-primary/5 flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined" data-icon="model_training">model_training</span>
+</div>
+<div>
+<h4 class="font-bold text-primary text-lg leading-tight group-hover:text-secondary transition-colors">YOLOv8 Edge-Realtime</h4>
+<p class="text-on-surface-variant text-sm mt-0.5">Model: YOLOv8-Nano (INT8)</p>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-6">
+<div class="flex flex-col items-start md:items-end">
+<span class="text-[10px] font-bold text-on-surface-variant/60 uppercase tracking-widest">Submitted</span>
+<span class="text-sm font-semibold text-on-surface">2 hours ago</span>
+</div>
+<div class="flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-1.5 rounded-full border border-emerald-100">
+<span class="material-symbols-outlined text-xs" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-xs font-bold uppercase tracking-wider">Completed</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors" data-icon="more_vert">more_vert</span>
+</div>
+</div>
+<!-- Solution Item 3: In Queue -->
+<div class="group bg-surface-container-lowest hover:bg-surface-container-low transition-all duration-300 rounded-xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-center gap-5">
+<div class="w-12 h-12 rounded-xl bg-primary/5 flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined" data-icon="language">language</span>
+</div>
+<div>
+<h4 class="font-bold text-primary text-lg leading-tight group-hover:text-secondary transition-colors">LLaMA-3.1 8B Distilled</h4>
+<p class="text-on-surface-variant text-sm mt-0.5">Model: Meta-Llama-3-8B</p>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-6">
+<div class="flex flex-col items-start md:items-end">
+<span class="text-[10px] font-bold text-on-surface-variant/60 uppercase tracking-widest">Submitted</span>
+<span class="text-sm font-semibold text-on-surface">5 hours ago</span>
+</div>
+<div class="flex items-center gap-2 bg-orange-50 text-orange-700 px-4 py-1.5 rounded-full border border-orange-100">
+<span class="material-symbols-outlined text-xs" data-icon="schedule">schedule</span>
+<span class="text-xs font-bold uppercase tracking-wider">In Queue</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors" data-icon="more_vert">more_vert</span>
+</div>
+</div>
+<!-- Solution Item 4: Failed -->
+<div class="group bg-surface-container-lowest hover:bg-surface-container-low transition-all duration-300 rounded-xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-center gap-5">
+<div class="w-12 h-12 rounded-xl bg-primary/5 flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined" data-icon="developer_board">developer_board</span>
+</div>
+<div>
+<h4 class="font-bold text-primary text-lg leading-tight group-hover:text-secondary transition-colors">StableDiffusion v1.5 Pruned</h4>
+<p class="text-on-surface-variant text-sm mt-0.5">Model: SD-1.5 (Mixed Precision)</p>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-6">
+<div class="flex flex-col items-start md:items-end">
+<span class="text-[10px] font-bold text-on-surface-variant/60 uppercase tracking-widest">Submitted</span>
+<span class="text-sm font-semibold text-on-surface">Yesterday</span>
+</div>
+<div class="flex items-center gap-2 bg-red-50 text-red-700 px-4 py-1.5 rounded-full border border-red-100">
+<span class="material-symbols-outlined text-xs" data-icon="error" style="font-variation-settings: 'FILL' 1;">error</span>
+<span class="text-xs font-bold uppercase tracking-wider">Failed</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors" data-icon="more_vert">more_vert</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Detailed Performance Insights (Asymmetric Section) -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-8 mb-32">
+<div class="md:col-span-4 bg-primary text-white p-8 rounded-3xl relative overflow-hidden flex flex-col justify-between min-h-[300px]">
+<div class="absolute -top-10 -right-10 w-40 h-40 bg-secondary/30 rounded-full blur-3xl"></div>
+<div>
+<h4 class="font-headline font-bold text-2xl mb-2">Architect Insights</h4>
+<p class="text-white/70 text-sm leading-relaxed">Your submission efficiency is 24% higher than the industry average for NPU-700 series.</p>
+</div>
+<div class="mt-8">
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs font-bold uppercase tracking-widest opacity-60">Global Rank</span>
+<span class="text-sm font-bold">Top 2%</span>
+</div>
+<div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+<div class="w-[98%] h-full bg-secondary-container rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="md:col-span-8 bg-surface-container-low p-8 rounded-3xl flex flex-col justify-center">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-1 h-12 bg-secondary rounded-full"></div>
+<h4 class="font-headline font-bold text-2xl text-primary">Monthly Performance Pulse</h4>
+</div>
+<div class="flex items-end gap-2 h-40">
+<div class="flex-1 bg-primary/10 rounded-t-lg h-1/2"></div>
+<div class="flex-1 bg-primary/10 rounded-t-lg h-2/3"></div>
+<div class="flex-1 bg-primary/10 rounded-t-lg h-1/3"></div>
+<div class="flex-1 bg-secondary rounded-t-lg h-full"></div>
+<div class="flex-1 bg-primary/10 rounded-t-lg h-3/4"></div>
+<div class="flex-1 bg-primary/10 rounded-t-lg h-1/2"></div>
+<div class="flex-1 bg-primary/10 rounded-t-lg h-2/3"></div>
+</div>
+<div class="flex justify-between mt-4">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-tighter">Week 1</span>
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-tighter">Week 4</span>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-[#f8f9fb]/80 dark:bg-[#3e012c]/90 backdrop-blur-xl shadow-[0_-4px_24px_0_rgba(62,1,44,0.06)] rounded-t-2xl">
+<a class="flex flex-col items-center justify-center text-[#591942]/60 dark:text-[#e0e3e5]/60 hover:text-[#b41b5c] dark:hover:text-[#fe5993] active:scale-90 transition-transform duration-300 ease-out" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="home_storage">home_storage</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-bold uppercase tracking-widest mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#591942]/60 dark:text-[#e0e3e5]/60 hover:text-[#b41b5c] dark:hover:text-[#fe5993] active:scale-90 transition-transform duration-300 ease-out" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="Model_Training">model_training</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-bold uppercase tracking-widest mt-1">Models</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#591942]/60 dark:text-[#e0e3e5]/60 hover:text-[#b41b5c] dark:hover:text-[#fe5993] active:scale-90 transition-transform duration-300 ease-out" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="add_chart">add_chart</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-bold uppercase tracking-widest mt-1">Submit</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#b41b5c] dark:text-[#fe5993] bg-[#fe5993]/10 rounded-xl px-3 py-1 active:scale-90 transition-transform duration-300 ease-out" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="person_search" style="font-variation-settings: 'FILL' 1;">person_search</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-bold uppercase tracking-widest mt-1">Profile</span>
+</a>
+</nav>
+</body></html>
