@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useParams, useSearchParams, notFound } from "next/navigation";
 import { getTool } from "@/lib/tools-registry";
 import { useHistory } from "@/lib/use-history";
 
-export default function ToolPage() {
+function ToolContent() {
   const { id } = useParams<{ id: string }>();
   const searchParams = useSearchParams();
   const tool = getTool(id);
@@ -92,5 +92,13 @@ export default function ToolPage() {
         </div>
       )}
     </>
+  );
+}
+
+export default function ToolPage() {
+  return (
+    <Suspense fallback={<div className="py-16 text-center text-on-surface-variant">加载中...</div>}>
+      <ToolContent />
+    </Suspense>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { allModels } from "@/lib/mock-data";
@@ -8,7 +8,7 @@ import { allModels } from "@/lib/mock-data";
 const CATEGORIES = ["All", "Audio Recognition", "Generative Vision", "Large Language", "Object Detection", "Multimodal", "Embodied AI"];
 const QUANTS = ["All", "INT4", "INT8", "FP16"];
 
-export default function ModelsPage() {
+function ModelsContent() {
   const searchParams = useSearchParams();
   const [search, setSearch] = useState(searchParams.get("q") ?? "");
   const [category, setCategory] = useState("All");
@@ -162,5 +162,13 @@ export default function ModelsPage() {
         </div>
       </div>
     </>
+  );
+}
+
+export default function ModelsPage() {
+  return (
+    <Suspense fallback={<div className="py-16 text-center text-on-surface-variant">加载中...</div>}>
+      <ModelsContent />
+    </Suspense>
   );
 }
