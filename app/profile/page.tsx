@@ -1,6 +1,54 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { currentUser, profileSettingsGrid } from "@/lib/mock-data";
+import { useAuth } from "@/lib/use-auth";
+import { useRouter } from "next/navigation";
+
+const LANGUAGES = [
+  { code: "zh-CN", label: "简体中文" },
+  { code: "en-US", label: "English (US)" },
+  { code: "ja-JP", label: "日本語" },
+];
 
 export default function ProfilePage() {
+  const { logout } = useAuth();
+  const router = useRouter();
+  const [darkMode, setDarkMode] = useState(false);
+  const [lang, setLang] = useState("zh-CN");
+  const [showLang, setShowLang] = useState(false);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("npuhub_prefs");
+    if (stored) {
+      const prefs = JSON.parse(stored);
+      setDarkMode(prefs.darkMode ?? false);
+      setLang(prefs.lang ?? "zh-CN");
+    }
+  }, []);
+
+  function savePrefs(newDark: boolean, newLang: string) {
+    localStorage.setItem("npuhub_prefs", JSON.stringify({ darkMode: newDark, lang: newLang }));
+    document.documentElement.classList.toggle("dark", newDark);
+  }
+
+  function toggleDark() {
+    const next = !darkMode;
+    setDarkMode(next);
+    savePrefs(next, lang);
+  }
+
+  function selectLang(code: string) {
+    setLang(code);
+    setShowLang(false);
+    savePrefs(darkMode, code);
+  }
+
+  function handleLogout() {
+    logout();
+    router.push("/");
+  }
+
   return (
     <>
       {/* Hero */}
@@ -49,32 +97,66 @@ export default function ProfilePage() {
 
       {/* System Preferences */}
       <section>
-        <h4 className="font-headline font-extrabold text-xs uppercase tracking-widest text-secondary mb-4">System Preferences</h4>
+        <h4 className="font-headline font-extrabold text-xs uppercase tracking-widest text-secondary mb-4">系统偏好设置</h4>
         <div className="space-y-2">
+          {/* Dark Mode */}
           <div className="flex items-center justify-between p-4 bg-surface-container-low rounded-xl">
             <div className="flex items-center gap-3">
-              <span className="material-symbols-outlined text-on-surface-variant">dark_mode</span>
-              <span className="font-medium text-sm">Dark Appearance</span>
+              <span className="material-symbols-outlined text-on-surface-variant" style={darkMode ? { fontVariationSettings: "'FILL' 1" } : undefined}>dark_mode</span>
+              <div>
+                <span className="font-medium text-sm">深色外观</span>
+                <p className="text-[10px] text-on-surface-variant mt-0.5">{darkMode ? "已开启" : "已关闭"}</p>
+              </div>
             </div>
-            <div className="w-10 h-5 bg-outline-variant/30 rounded-full relative cursor-pointer">
-              <div className="absolute right-1 top-1 w-3 h-3 bg-white rounded-full" />
-            </div>
+            <button
+              onClick={toggleDark}
+              className={`w-11 h-6 rounded-full relative flex-shrink-0 transition-colors ${darkMode ? "bg-secondary" : "bg-outline-variant/40"}`}
+            >
+              <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${darkMode ? "translate-x-5" : "translate-x-0.5"}`} />
+            </button>
           </div>
-          <div className="flex items-center justify-between p-4 bg-surface-container-low rounded-xl">
-            <div className="flex items-center gap-3">
-              <span className="material-symbols-outlined text-on-surface-variant">language</span>
-              <span className="font-medium text-sm">Language</span>
-            </div>
-            <span className="text-xs font-bold text-secondary uppercase font-label">English (US)</span>
+
+          {/* Language */}
+          <div className="relative">
+            <button
+              onClick={() => setShowLang(!showLang)}
+              className="w-full flex items-center justify-between p-4 bg-surface-container-low rounded-xl hover:bg-surface-container transition-colors"
+            >
+              <div className="flex items-center gap-3">
+                <span className="material-symbols-outlined text-on-surface-variant">language</span>
+                <div className="text-left">
+                  <span className="font-medium text-sm block">界面语言</span>
+                  <p className="text-[10px] text-on-surface-variant mt-0.5">{LANGUAGES.find(l => l.code === lang)?.label}</p>
+                </div>
+              </div>
+              <span className={`material-symbols-outlined text-[18px] text-secondary transition-transform ${showLang ? "rotate-180" : ""}`}>expand_more</span>
+            </button>
+            {showLang && (
+              <div className="absolute left-0 right-0 top-full mt-1 bg-surface-container-lowest rounded-xl shadow-xl border border-outline-variant/20 overflow-hidden z-10">
+                {LANGUAGES.map((l) => (
+                  <button
+                    key={l.code}
+                    onClick={() => selectLang(l.code)}
+                    className={`w-full flex items-center justify-between px-4 py-3 text-sm transition-colors hover:bg-surface-container-low ${lang === l.code ? "text-primary font-bold" : "text-on-surface"}`}
+                  >
+                    {l.label}
+                    {lang === l.code && <span className="material-symbols-outlined text-primary text-[18px]">check</span>}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </section>
 
       {/* Logout */}
       <div className="pb-4">
-        <button className="w-full py-4 bg-gradient-to-br from-primary to-primary-container text-on-primary font-headline font-bold rounded-xl shadow-[0_8px_24px_-4px_rgba(62,1,44,0.2)] active:scale-95 transition-all flex items-center justify-center gap-3">
+        <button
+          onClick={handleLogout}
+          className="w-full py-4 bg-gradient-to-br from-primary to-primary-container text-on-primary font-headline font-bold rounded-xl shadow-[0_8px_24px_-4px_rgba(62,1,44,0.2)] active:scale-95 transition-all flex items-center justify-center gap-3"
+        >
           <span className="material-symbols-outlined">logout</span>
-          Logout from System
+          退出登录
         </button>
       </div>
     </>

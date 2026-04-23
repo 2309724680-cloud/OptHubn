@@ -40,11 +40,31 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="bg-background font-body text-on-surface antialiased overflow-x-hidden mesh-bg min-h-screen">
+      <body className="bg-[#fff8f7] font-body text-on-surface antialiased overflow-x-hidden mesh-bg min-h-screen">
         <TopBar />
         <main className="pt-20 pb-28 px-4 md:px-6 max-w-7xl mx-auto space-y-10">
           {children}
         </main>
+        <footer className="w-full py-12 mt-8 bg-zinc-50 border-t border-zinc-200/50 hidden md:block">
+          <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div>
+              <p className="font-headline font-bold text-zinc-900 text-xl mb-4">Precision Curator AI Benchmarking Lab</p>
+              <p className="font-body text-sm text-zinc-500">© 2025 Precision Curator AI Benchmarking Lab. 提供行业领先的推理加速性能分析报告与模型评估基准。</p>
+            </div>
+            <div className="flex flex-wrap gap-8 justify-start md:justify-end">
+              {[
+                { label: "Methodology", href: "/docs" },
+                { label: "API Docs", href: "/docs" },
+                { label: "Privacy", href: "/docs" },
+                { label: "Infrastructure", href: "/docs" },
+              ].map(({ label, href }) => (
+                <a key={label} href={href} className="text-zinc-500 hover:text-primary underline decoration-rose-200 underline-offset-4 transition-all opacity-80 hover:opacity-100 text-sm">
+                  {label}
+                </a>
+              ))}
+            </div>
+          </div>
+        </footer>
         <BottomNav />
       </body>
     </html>

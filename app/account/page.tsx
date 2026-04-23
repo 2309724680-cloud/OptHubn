@@ -20,26 +20,36 @@ export default function AccountPage() {
   const [confirmPwd, setConfirmPwd] = useState("");
   const [pwdMsg, setPwdMsg] = useState("");
 
+  const [hydrated, setHydrated] = useState(false);
+
   useEffect(() => {
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
     if (!user) { router.push("/"); return; }
     setName(user.name);
     setEmail(user.email);
-  }, [user, router]);
+  }, [user, router, hydrated]);
 
   function saveProfile() {
     if (!name.trim()) { setProfileMsg("用户名不能为空"); return; }
     try {
       const accounts = JSON.parse(localStorage.getItem("npuhub_accounts") ?? "{}");
-      if (email !== user!.email) {
+      const currentEmail = user!.email;
+      if (email !== currentEmail) {
         if (accounts[email]) { setProfileMsg("该邮箱已被使用"); return; }
-        accounts[email] = accounts[user!.email];
-        delete accounts[user!.email];
+        accounts[email] = { ...accounts[currentEmail] };
+        delete accounts[currentEmail];
       }
+      if (!accounts[email]) { setProfileMsg("账号数据异常，请重新登录"); return; }
       accounts[email].name = name;
       localStorage.setItem("npuhub_accounts", JSON.stringify(accounts));
       const updated = { name, email };
       localStorage.setItem("npuhub_user", JSON.stringify(updated));
-      window.location.reload();
+      setProfileMsg("✓ 保存成功");
+      setTimeout(() => window.location.reload(), 800);
     } catch {
       setProfileMsg("保存失败，请重试");
     }
@@ -73,6 +83,7 @@ export default function AccountPage() {
     } catch {}
   }
 
+  if (!hydrated) return null;
   if (!user) return null;
 
   const TABS = [
@@ -134,7 +145,7 @@ export default function AccountPage() {
             />
           </div>
           {profileMsg && (
-            <p className={`text-xs font-medium ${profileMsg.startsWith("✓") ? "text-tertiary-container" : "text-error"}`}>
+            <p className={`text-xs font-medium ${profileMsg.startsWith("✓") ? "text-tertiary" : "text-error"}`}>
               {profileMsg}
             </p>
           )}
@@ -168,7 +179,7 @@ export default function AccountPage() {
             </div>
           ))}
           {pwdMsg && (
-            <p className={`text-xs font-medium ${pwdMsg.startsWith("✓") ? "text-on-tertiary-container" : "text-error"}`}>
+            <p className={`text-xs font-medium ${pwdMsg.startsWith("✓") ? "text-tertiary" : "text-error"}`}>
               {pwdMsg}
             </p>
           )}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 const steps = [
   { label: "Basic Info", icon: "info" },
@@ -11,8 +12,14 @@ const steps = [
 const inputCls = "w-full bg-surface-container-low rounded-lg py-3.5 px-4 font-body text-sm text-on-surface placeholder:text-outline/50 outline-none focus:ring-2 focus:ring-secondary transition-shadow";
 const labelCls = "block font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-2";
 
+function genTaskId() {
+  return "task_" + Math.random().toString(36).slice(2, 13);
+}
+
 export default function SubmitPage() {
   const [step, setStep] = useState(0);
+  const [submitted, setSubmitted] = useState(false);
+  const [taskId] = useState(genTaskId);
   const [form, setForm] = useState({
     baseModel: "Whisper-Large-v3 (Optimized for NPU)",
     solutionName: "",
@@ -25,6 +32,53 @@ export default function SubmitPage() {
 
   function update(key: string, value: string | boolean) {
     setForm((prev) => ({ ...prev, [key]: value }));
+  }
+
+  if (submitted) {
+    return (
+      <div className="max-w-2xl mx-auto py-16 flex flex-col items-center text-center space-y-8">
+        <div className="w-24 h-24 rounded-full bg-tertiary/10 flex items-center justify-center">
+          <span className="material-symbols-outlined text-5xl text-tertiary" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+        </div>
+        <div className="space-y-2">
+          <h2 className="font-headline font-extrabold text-3xl text-on-surface">任务已提交</h2>
+          <p className="text-on-surface-variant">您的基准测试任务已进入队列，预计 <span className="font-bold text-primary">5–8 分钟</span>完成。</p>
+        </div>
+        <div className="w-full bg-surface-container-lowest rounded-2xl border border-outline-variant/10 p-6 space-y-4 text-left">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold uppercase tracking-widest text-on-surface-variant font-label">任务 ID</span>
+            <code className="font-mono text-sm text-secondary bg-secondary/10 px-3 py-1 rounded-lg">{taskId}</code>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold uppercase tracking-widest text-on-surface-variant font-label">模型</span>
+            <span className="text-sm font-semibold text-on-surface">{form.baseModel.split(" (")[0]}</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold uppercase tracking-widest text-on-surface-variant font-label">状态</span>
+            <span className="px-3 py-1 bg-amber-50 text-amber-600 border border-amber-200 rounded text-[10px] font-extrabold tracking-wide">QUEUED</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold uppercase tracking-widest text-on-surface-variant font-label">预计完成</span>
+            <span className="text-sm text-on-surface-variant">约 420 秒</span>
+          </div>
+        </div>
+        <div className="flex flex-wrap gap-3 justify-center">
+          <Link href="/leaderboard">
+            <button className="flex items-center gap-2 gradient-primary text-white px-6 py-3 rounded-xl font-headline font-bold shadow-lg shadow-primary/20 hover:opacity-90 active:scale-95 transition-all">
+              <span className="material-symbols-outlined text-[20px]">leaderboard</span>
+              查看排行榜
+            </button>
+          </Link>
+          <button
+            onClick={() => { setSubmitted(false); setStep(0); }}
+            className="flex items-center gap-2 border border-outline-variant/30 text-on-surface px-6 py-3 rounded-xl font-headline font-bold hover:bg-surface-container-low transition-all"
+          >
+            <span className="material-symbols-outlined text-[20px]">add_chart</span>
+            再提交一个
+          </button>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -182,7 +236,13 @@ export default function SubmitPage() {
 
           {/* Deploy Button */}
           <button
-            onClick={() => setStep(Math.min(step + 1, steps.length - 1))}
+            onClick={() => {
+              if (step < steps.length - 1) {
+                setStep(step + 1);
+              } else {
+                setSubmitted(true);
+              }
+            }}
             className="w-full py-4 bg-secondary text-on-secondary font-headline font-bold text-base rounded-xl shadow-lg shadow-secondary/30 hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-2"
           >
             <span className="material-symbols-outlined">rocket_launch</span>
