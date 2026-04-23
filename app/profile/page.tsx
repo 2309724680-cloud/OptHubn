@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { currentUser, profileSettingsGrid } from "@/lib/mock-data";
+import { profileSettingsGrid } from "@/lib/mock-data";
 import { useAuth } from "@/lib/use-auth";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const LANGUAGES = [
   { code: "zh-CN", label: "简体中文" },
@@ -12,13 +13,15 @@ const LANGUAGES = [
 ];
 
 export default function ProfilePage() {
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
   const router = useRouter();
   const [darkMode, setDarkMode] = useState(false);
   const [lang, setLang] = useState("zh-CN");
   const [showLang, setShowLang] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
+    setHydrated(true);
     const stored = localStorage.getItem("npuhub_prefs");
     if (stored) {
       const prefs = JSON.parse(stored);
@@ -26,6 +29,11 @@ export default function ProfilePage() {
       setLang(prefs.lang ?? "zh-CN");
     }
   }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    if (!user) router.push("/");
+  }, [hydrated, user, router]);
 
   function savePrefs(newDark: boolean, newLang: string) {
     localStorage.setItem("npuhub_prefs", JSON.stringify({ darkMode: newDark, lang: newLang }));
@@ -49,29 +57,36 @@ export default function ProfilePage() {
     router.push("/");
   }
 
+  if (!hydrated || !user) return null;
+
+  // 从用户名首字母生成头像背景色
+  const initial = user.name[0]?.toUpperCase() ?? "U";
+
   return (
     <>
       {/* Hero */}
       <section className="pt-2 flex flex-col items-center text-center space-y-4">
         <div className="relative inline-block">
-          <div className="w-32 h-32 rounded-xl overflow-hidden bg-surface-container-low p-1 ring-4 ring-primary/10">
-            <img src={currentUser.avatarUrl} alt={currentUser.name} className="w-full h-full object-cover rounded-lg" />
+          <div className="w-32 h-32 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center ring-4 ring-primary/10 shadow-lg">
+            <span className="font-headline font-black text-5xl text-white">{initial}</span>
           </div>
-          <button className="absolute -bottom-2 -right-2 bg-secondary text-on-secondary p-2 rounded-lg shadow-lg active:scale-90 transition-transform">
-            <span className="material-symbols-outlined text-sm">edit</span>
-          </button>
+          <Link href="/account">
+            <button className="absolute -bottom-2 -right-2 bg-secondary text-on-secondary p-2 rounded-lg shadow-lg active:scale-90 transition-transform">
+              <span className="material-symbols-outlined text-sm">edit</span>
+            </button>
+          </Link>
         </div>
         <div>
-          <h2 className="font-headline font-extrabold text-3xl tracking-tight text-on-surface mb-2">{currentUser.name}</h2>
-          <p className="text-on-surface-variant text-sm leading-relaxed max-w-xs mx-auto font-body">{currentUser.role}</p>
+          <h2 className="font-headline font-extrabold text-3xl tracking-tight text-on-surface mb-1">{user.name}</h2>
+          <p className="text-on-surface-variant text-sm font-body">{user.email}</p>
         </div>
         <div className="flex gap-4">
           <div className="px-4 py-2 bg-surface-container-low rounded-lg text-center">
-            <span className="block font-bold text-secondary">{currentUser.stats.submitted}</span>
+            <span className="block font-bold text-secondary">—</span>
             <span className="text-[10px] uppercase tracking-wider font-semibold opacity-60 font-label">Submitted</span>
           </div>
           <div className="px-4 py-2 bg-surface-container-low rounded-lg text-center">
-            <span className="block font-bold text-secondary">{currentUser.stats.benchmarks}</span>
+            <span className="block font-bold text-secondary">—</span>
             <span className="text-[10px] uppercase tracking-wider font-semibold opacity-60 font-label">Benchmarks</span>
           </div>
         </div>
@@ -80,18 +95,20 @@ export default function ProfilePage() {
       {/* Settings Grid */}
       <div className="grid grid-cols-2 gap-4">
         {profileSettingsGrid.map((item) => (
-          <button key={item.id} className="bg-surface-container-lowest p-6 rounded-xl text-left hover:bg-surface-container-low group cursor-pointer transition-colors">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="p-3 rounded-lg bg-secondary/10 text-secondary">
-                <span className="material-symbols-outlined">{item.icon}</span>
+          <Link key={item.id} href={item.href ?? "/account"}>
+            <button className="w-full bg-surface-container-lowest p-6 rounded-xl text-left hover:bg-surface-container-low group cursor-pointer transition-colors">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="p-3 rounded-lg bg-secondary/10 text-secondary">
+                  <span className="material-symbols-outlined">{item.icon}</span>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-headline font-bold text-on-surface text-sm">{item.label}</h3>
+                  <p className="text-xs text-on-surface-variant mt-0.5">{item.description}</p>
+                </div>
+                <span className="material-symbols-outlined ml-auto text-outline opacity-40 group-hover:opacity-100 transition-opacity flex-shrink-0">chevron_right</span>
               </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="font-headline font-bold text-on-surface text-sm">{item.label}</h3>
-                <p className="text-xs text-on-surface-variant mt-0.5">{item.description}</p>
-              </div>
-              <span className="material-symbols-outlined ml-auto text-outline opacity-40 group-hover:opacity-100 transition-opacity flex-shrink-0">chevron_right</span>
-            </div>
-          </button>
+            </button>
+          </Link>
         ))}
       </div>
 
