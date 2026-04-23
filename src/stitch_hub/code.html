@@ -1,373 +1,339 @@
 <!DOCTYPE html>
 
-<html class="light" lang="zh-CN"><head>
+<html lang="zh-CN"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>NPU Benchmark Hub</title>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "on-secondary-fixed-variant": "#790096",
-                        "on-surface": "#27171a",
-                        "surface-variant": "#f9dbdf",
-                        "on-background": "#27171a",
-                        "on-tertiary-container": "#dcffdd",
-                        "surface": "#fff8f7",
-                        "primary-container": "#d81b60",
-                        "secondary": "#942cb0",
-                        "surface-container-low": "#fff0f1",
-                        "surface-dim": "#f0d3d7",
-                        "on-primary-fixed": "#3f0016",
-                        "inverse-surface": "#3e2c2f",
-                        "inverse-on-surface": "#ffecee",
-                        "surface-tint": "#bc004f",
-                        "on-primary-fixed-variant": "#90003b",
-                        "outline": "#8e6f74",
-                        "background": "#fff8f7",
-                        "error": "#ba1a1a",
-                        "on-primary": "#ffffff",
-                        "on-tertiary-fixed-variant": "#005226",
-                        "tertiary-container": "#00823f",
-                        "primary-fixed": "#ffd9de",
-                        "surface-container-highest": "#f9dbdf",
-                        "on-secondary": "#ffffff",
-                        "surface-container-lowest": "#ffffff",
-                        "secondary-fixed-dim": "#f3aeff",
-                        "tertiary-fixed-dim": "#73dc8e",
-                        "on-secondary-container": "#670080",
-                        "on-error-container": "#93000a",
-                        "on-primary-container": "#fff2f3",
-                        "error-container": "#ffdad6",
-                        "primary-fixed-dim": "#ffb2bf",
-                        "on-secondary-fixed": "#340042",
-                        "secondary-container": "#e67aff",
-                        "surface-container": "#ffe9eb",
-                        "on-surface-variant": "#5a4044",
-                        "primary": "#b0004a",
-                        "outline-variant": "#e3bdc3",
-                        "surface-bright": "#fff8f7",
-                        "tertiary": "#006630",
-                        "surface-container-high": "#ffe1e5",
-                        "on-tertiary-fixed": "#00210b",
-                        "on-tertiary": "#ffffff",
-                        "inverse-primary": "#ffb2bf",
-                        "secondary-fixed": "#fdd6ff",
-                        "on-error": "#ffffff",
-                        "tertiary-fixed": "#8ff9a8"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "fontFamily": {
-                        "headline": ["Manrope"],
-                        "body": ["Inter"],
-                        "label": ["Inter"]
-                    }
-                }
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed": "#3b002d",
+                    "primary": "#69003d",
+                    "surface": "#fcf9f8",
+                    "on-secondary-fixed-variant": "#880067",
+                    "outline-variant": "#dac0c8",
+                    "surface-tint": "#a2346a",
+                    "tertiary-fixed": "#ffd8ec",
+                    "on-primary-container": "#ff9bc4",
+                    "on-secondary": "#ffffff",
+                    "tertiary-fixed-dim": "#ffaede",
+                    "secondary-container": "#fe6fcb",
+                    "on-error-container": "#93000a",
+                    "surface-container": "#f0eded",
+                    "secondary": "#a82581",
+                    "on-primary-fixed": "#3e0022",
+                    "tertiary-container": "#7d2864",
+                    "on-primary": "#ffffff",
+                    "on-background": "#1b1c1c",
+                    "primary-fixed": "#ffd9e5",
+                    "outline": "#877178",
+                    "surface-container-high": "#eae7e7",
+                    "error": "#ba1a1a",
+                    "tertiary": "#610d4c",
+                    "surface-container-low": "#f6f3f2",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-fixed-dim": "#ffaedb",
+                    "on-error": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "inverse-primary": "#ffb0ce",
+                    "primary-container": "#881e55",
+                    "primary-fixed-dim": "#ffb0ce",
+                    "on-tertiary-container": "#ff98d9",
+                    "on-surface": "#1b1c1c",
+                    "on-tertiary-fixed-variant": "#792461",
+                    "on-surface-variant": "#554248",
+                    "inverse-surface": "#303030",
+                    "inverse-on-surface": "#f3f0ef",
+                    "surface-bright": "#fcf9f8",
+                    "on-secondary-fixed": "#3c002b",
+                    "secondary-fixed": "#ffd8eb",
+                    "background": "#fcf9f8",
+                    "on-tertiary": "#ffffff",
+                    "surface-dim": "#dcd9d9",
+                    "on-primary-fixed-variant": "#841a52",
+                    "on-secondary-container": "#710054",
+                    "surface-variant": "#e4e2e1",
+                    "surface-container-highest": "#e4e2e1"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "card_padding": "24px",
+                    "gutter": "24px",
+                    "section_gap": "80px",
+                    "navbar_height": "64px",
+                    "margin_edge": "48px",
+                    "unit": "4px"
+            },
+            "fontFamily": {
+                    "subheadline": ["Inter", "Microsoft YaHei"],
+                    "label-caps": ["Inter", "Microsoft YaHei"],
+                    "data-mono": ["Inter", "Microsoft YaHei"],
+                    "body-lg": ["Inter", "Microsoft YaHei"],
+                    "h2": ["Public Sans", "Microsoft YaHei"],
+                    "h3": ["Public Sans", "Microsoft YaHei"],
+                    "h1": ["Public Sans", "Microsoft YaHei"],
+                    "body-sm": ["Inter", "Microsoft YaHei"]
+            },
+            "fontSize": {
+                    "subheadline": ["18px", {"lineHeight": "1.5", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "label-caps": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "data-mono": ["13px", {"lineHeight": "1", "letterSpacing": "0", "fontWeight": "500"}],
+                    "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "h2": ["36px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "h3": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "h1": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}]
             }
-        }
+          },
+        },
+      }
     </script>
 <style>
-        body { font-family: 'Inter', sans-serif; background-color: #fff8f7; color: #27171a; }
-        .font-headline { font-family: 'Manrope', sans-serif; }
-        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-        .glass-card { background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(16px); }
-        .gradient-primary { background: linear-gradient(45deg, #b0004a, #d81b60); }
-        .hero-glow { background: radial-gradient(circle at center, rgba(148, 44, 176, 0.08) 0%, transparent 70%); }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bg-gradient-magenta {
+            background: linear-gradient(135deg, #881E55 0%, #D14AA4 100%);
+        }
+        .blob-magenta {
+            filter: blur(80px);
+            opacity: 0.1;
+        }
+        .npu-grid-dot {
+            background-image: radial-gradient(rgba(136, 30, 85, 0.2) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
     </style>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
-    }
-  </style>
-  </head>
-<body class="selection:bg-primary-fixed selection:text-on-primary-fixed">
-<!-- TopAppBar -->
-<header class="sticky top-0 w-full z-50 bg-[#fff8f7]/80 dark:bg-zinc-950/80 backdrop-blur-2xl bg-zinc-100 dark:bg-zinc-900 shadow-[0_1px_0_0_rgba(0,0,0,0.05)]">
-<div class="max-w-[1440px] mx-auto px-8 flex justify-between items-center h-20">
-<div class="flex items-center gap-8">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-[#b0004a] dark:text-rose-400 text-3xl">analytics</span>
-<h1 class="text-xl font-extrabold tracking-tighter text-[#b0004a] dark:text-rose-500 font-headline">NPU Benchmark Hub</h1>
+</head>
+<body class="bg-white text-on-surface font-body-lg antialiased">
+<!-- 1. NAVIGATION BAR -->
+<nav class="fixed top-0 left-0 w-full z-50 h-[64px] bg-white/95 backdrop-blur-md border-b border-[#881E55]/15 flex items-center justify-between px-8">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 bg-[#881E55] rounded-full flex items-center justify-center text-white font-bold text-xl">N</div>
+<span class="text-subheadline font-semibold text-slate-900">NPU Bench</span>
 </div>
-<nav class="hidden md:flex gap-6 font-['Manrope'] font-semibold tracking-tight">
-<a class="text-[#b0004a] dark:text-rose-400 border-b-2 border-[#b0004a] pb-1" href="#">首页</a>
-<a class="text-zinc-500 dark:text-zinc-400 hover:text-[#942cb0] transition-colors" href="#">模型库</a>
-<a class="text-zinc-500 dark:text-zinc-400 hover:text-[#942cb0] transition-colors" href="#">排行榜</a>
-<a class="text-zinc-500 dark:text-zinc-400 hover:text-[#942cb0] transition-colors" href="#">文档</a>
-</nav>
+<div class="h-6 w-[1px] bg-slate-200"></div>
+<span class="text-[12px] text-slate-500 font-medium">深圳河套学院 · 昇腾算力平台</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-body-sm font-bold text-slate-900 border-b-2 border-[#881E55] pb-[19px] translate-y-[10px]" href="#">模型库</a>
+<a class="text-body-sm text-slate-500 hover:text-[#881E55] transition-colors" href="#">排行</a>
+<a class="text-body-sm text-slate-500 hover:text-[#881E55] transition-colors" href="#">提交方案</a>
+<a class="text-body-sm text-slate-500 hover:text-[#881E55] transition-colors" href="#">文档</a>
 </div>
 <div class="flex items-center gap-4">
-<div class="hidden lg:flex items-center bg-surface-container-low px-4 py-2 rounded-full border-none group transition-all focus-within:ring-2 focus-within:ring-primary-container">
-<span class="material-symbols-outlined text-outline text-lg">search</span>
-<input class="bg-transparent border-none focus:ring-0 text-sm w-48 font-body" placeholder="搜索模型、指标..." type="text"/>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">search</span>
+<input class="w-48 pl-10 pr-4 py-1.5 bg-white border border-[#e27dbe] rounded-full text-body-sm focus:outline-none focus:ring-1 focus:ring-[#881E55] transition-all" placeholder="搜索模型..." type="text"/>
 </div>
-<button class="px-6 py-2 rounded-full font-headline font-bold text-[#b0004a] dark:text-rose-400 hover:bg-rose-50/50 dark:hover:bg-rose-900/10 transition-all duration-300 active:scale-95">Sign In</button>
+<button class="px-4 py-1.5 text-body-sm font-semibold text-[#881E55] border border-[#881E55] rounded-lg hover:bg-slate-50 transition-colors">登录</button>
+<button class="px-4 py-1.5 text-body-sm font-semibold text-white bg-gradient-magenta rounded-lg shadow-sm hover:opacity-90 active:scale-[0.98] transition-all">注册</button>
 </div>
+</nav>
+<!-- 2. HERO SECTION -->
+<section class="relative pt-[64px] h-[564px] flex overflow-hidden">
+<!-- Background Blobs -->
+<div class="absolute -top-20 -left-20 w-80 h-80 bg-[#881E55] blob-magenta rounded-full"></div>
+<div class="absolute top-40 -left-10 w-60 h-60 bg-[#D14AA4] blob-magenta rounded-full"></div>
+<div class="max-w-[1280px] mx-auto w-full px-12 flex items-center z-10">
+<div class="w-full lg:w-[640px]">
+<div class="inline-flex items-center px-3 py-1 bg-primary-fixed text-[#881E55] rounded-full text-label-caps mb-6">
+                    深圳河套学院 · 合作项目
+                </div>
+<h1 class="font-h1 text-slate-900 mb-4 whitespace-pre-line leading-[1.1]">NPU 推理<br/><span class="text-primary-container text-white px-2 py-1 bg-[#881E55] rounded-xl">基准</span>测试平台</h1>
+<p class="text-subheadline text-slate-600 mb-8">在昇腾NPU上发现、对比、贡献推理优化方案</p>
+<div class="flex items-center gap-4 mb-10">
+<button class="px-8 py-4 bg-gradient-magenta text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all">探索模型库</button>
+<button class="px-8 py-4 border-2 border-[#881E55] text-[#881E55] font-semibold rounded-xl hover:bg-[#881E55]/5 transition-all">提交方案</button>
 </div>
-</header>
-<main>
-<!-- Hero Section -->
-<section class="relative overflow-hidden pt-16 pb-24 hero-glow">
-<div class="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-<div class="z-10">
-<span class="inline-block px-3 py-1 mb-6 text-xs font-bold tracking-widest uppercase bg-secondary-fixed-dim text-on-secondary-fixed rounded-lg">High Performance Inference</span>
-<h2 class="text-6xl font-headline font-extrabold text-on-surface leading-[1.1] tracking-tight mb-6">
-                        NPU 推理<br/><span class="text-primary">基准测试平台</span>
-</h2>
-<p class="text-xl text-on-surface-variant font-body leading-relaxed mb-10 max-w-lg">
-                        深度洞察 AI 推理性能。通过跨架构硬件分析、多维度加速指标及学术级精度校验，为您的深度学习模型寻找最优部署方案。
-                    </p>
-<div class="flex flex-wrap gap-4">
-<button class="gradient-primary text-white px-8 py-4 rounded-xl font-headline font-bold text-lg shadow-lg hover:opacity-90 active:scale-95 transition-all">开始测试</button>
-<button class="border border-outline-variant/30 text-on-surface px-8 py-4 rounded-xl font-headline font-bold text-lg hover:bg-surface-container-low transition-all">查看文档</button>
-</div>
-</div>
-<div class="relative lg:block hidden">
-<div class="glass-card p-8 rounded-[2rem] border border-white/20 shadow-[0_32px_64px_rgba(39,23,26,0.06)] transform rotate-2">
-<img alt="Advanced computer hardware circuit board with glowing violet data lines and futuristic chip architecture" class="rounded-2xl w-full h-auto object-cover aspect-square" data-alt="abstract view of futuristic NPU microchip with glowing purple circuit traces and clean minimalist tech aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLKgqfoBh1hnRNMUBeU-GIWa9AO9VbWDxr9paUZNTZTa992aDAhT6r2YNtSYmSx5W2PzfZmjcMK6-epReH3Z4zskVJw4PV56gG47FyFSjMrjPb0pLWy-3rt-oqMO8uxD_QKeeFadWO2WFdZCb6O7ou-DmNRdSBqucyUerJ1k_fAZddv0nI7BuLbU0vOeaCXmQm6Faf03aNiDxlptJnNv9pP0pi0BlahMdYIuJfzS9BL8h-bDtMtqyFLd9hhzf94YB-PV8qS1FpMBZS"/>
-<div class="absolute -bottom-6 -left-6 glass-card p-6 rounded-2xl shadow-xl border border-white/30 backdrop-blur-3xl">
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-secondary text-3xl" style="font-variation-settings: 'FILL' 1;">monitoring</span>
-<div>
-<p class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">Inference Speedup</p>
-<p class="text-2xl font-headline font-extrabold text-primary">+342%</p>
+<div class="flex items-center gap-6 text-slate-400 font-data-mono text-body-sm">
+<span><strong class="text-slate-900">246</strong> 模型</span>
+<span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+<span><strong class="text-slate-900">1,832</strong> 方案</span>
+<span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+<span><strong class="text-slate-900">48,291</strong> 次评测</span>
 </div>
 </div>
+<div class="hidden lg:flex flex-1 relative h-full items-center justify-end">
+<div class="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-[500px]">
+<!-- Organic Shapes -->
+<div class="absolute top-10 right-0 w-80 h-80 bg-[#e27dbe] rounded-full mix-blend-multiply opacity-60"></div>
+<div class="absolute top-20 right-20 w-96 h-96 bg-[#d14aa4] rounded-full mix-blend-multiply opacity-70"></div>
+<div class="absolute bottom-10 right-10 w-72 h-72 bg-[#881E55] rounded-full mix-blend-multiply opacity-80"></div>
+<!-- Line Art Illustration Container -->
+<div class="absolute inset-0 flex items-center justify-center p-12">
+<div class="w-full h-full border-2 border-white/40 rounded-3xl backdrop-blur-sm flex items-center justify-center overflow-hidden">
+<div class="npu-grid-dot absolute inset-0 opacity-40"></div>
+<div class="relative w-48 h-48 border-4 border-white/60 rounded-2xl flex items-center justify-center">
+<div class="w-32 h-32 border-2 border-white/40 rotate-45 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[80px]" data-weight="fill">memory</span>
 </div>
 </div>
-<div class="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-[80px] -z-10"></div>
 </div>
 </div>
-</section>
-<!-- Stats Section -->
-<section class="max-w-7xl mx-auto px-8 -mt-12 relative z-20">
-<div class="bg-surface-container-lowest grid grid-cols-1 md:grid-cols-3 gap-0 rounded-[2rem] shadow-[0_32px_64px_rgba(39,23,26,0.04)] divide-x divide-outline-variant/10">
-<div class="p-10 flex flex-col items-center text-center">
-<span class="text-on-surface-variant font-headline font-semibold mb-2">Total Runs</span>
-<span class="text-5xl font-headline font-extrabold text-secondary tracking-tighter">12,842</span>
-<span class="text-xs text-tertiary mt-2 flex items-center gap-1"><span class="material-symbols-outlined text-xs">trending_up</span> +12% this week</span>
 </div>
-<div class="p-10 flex flex-col items-center text-center">
-<span class="text-on-surface-variant font-headline font-semibold mb-2">Model Count</span>
-<span class="text-5xl font-headline font-extrabold text-on-surface tracking-tighter">486</span>
-<span class="text-xs text-on-surface-variant mt-2">Active across all categories</span>
-</div>
-<div class="p-10 flex flex-col items-center text-center">
-<span class="text-on-surface-variant font-headline font-semibold mb-2">Test Scenarios</span>
-<span class="text-5xl font-headline font-extrabold text-primary tracking-tighter">1,204</span>
-<span class="text-xs text-on-surface-variant mt-2">Validated HW architectures</span>
 </div>
 </div>
 </section>
-<!-- Exploration Section -->
-<section class="py-24 max-w-7xl mx-auto px-8">
-<div class="flex justify-between items-end mb-12">
-<div>
-<h3 class="text-4xl font-headline font-extrabold text-on-surface mb-4">探索方向</h3>
-<p class="text-on-surface-variant max-w-md">按垂直领域深度测评，精准对比不同算法在专用硬件上的吞吐表现。</p>
+<!-- 3. STATS BAR -->
+<div class="w-full bg-white border-y border-[#881E55]/10 shadow-[0_2px_12px_rgba(136,30,85,0.08)]">
+<div class="max-w-[1280px] mx-auto h-[72px] flex items-center justify-center gap-32">
+<div class="flex items-center gap-4">
+<span class="text-h3 font-bold text-[#881E55] font-data-mono">246</span>
+<span class="text-body-sm text-slate-500">收录模型</span>
 </div>
-<button class="group flex items-center gap-2 text-primary font-bold hover:gap-4 transition-all">
-                    查看全部模型库 <span class="material-symbols-outlined">arrow_forward</span>
-</button>
+<div class="h-6 w-[1px] bg-slate-100"></div>
+<div class="flex items-center gap-4">
+<span class="text-h3 font-bold text-[#D14AA4] font-data-mono">1,832</span>
+<span class="text-body-sm text-slate-500">推理方案</span>
+</div>
+<div class="h-6 w-[1px] bg-slate-100"></div>
+<div class="flex items-center gap-4">
+<span class="text-h3 font-bold text-[#881E55] font-data-mono">48,291</span>
+<span class="text-body-sm text-slate-500">评测次数</span>
+</div>
+</div>
+</div>
+<!-- 4. CATEGORY SECTION -->
+<section class="max-w-[1280px] mx-auto px-12 py-20">
+<div class="flex items-center gap-4 mb-12">
+<div class="w-1 h-8 bg-[#881E55] rounded-full"></div>
+<h2 class="text-h3 font-bold text-slate-900">探索方向</h2>
+<span class="text-body-sm text-slate-400">· 按任务领域筛选</span>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 <!-- Card 1 -->
-<div class="bg-surface-container-low p-8 rounded-3xl hover:bg-surface-container-lowest hover:shadow-xl transition-all duration-300 group cursor-pointer relative overflow-hidden">
-<div class="bg-white w-14 h-14 rounded-2xl flex items-center justify-center shadow-sm mb-6 text-primary">
-<span class="material-symbols-outlined text-3xl">keyboard_voice</span>
+<div class="group bg-white border border-slate-100 rounded-xl p-6 shadow-[0_2px_12px_rgba(136,30,85,0.05)] hover:shadow-xl transition-all cursor-pointer relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1.5 bg-[#881E55]"></div>
+<div class="mb-4">
+<span class="material-symbols-outlined text-[#881E55] text-3xl">waves</span>
 </div>
-<h4 class="text-xl font-headline font-bold text-on-surface mb-3">语音</h4>
-<p class="text-sm text-on-surface-variant mb-6 line-clamp-2">端到端语音识别与合成，专注于 ASR/TTS 模型在边缘端的实时性测试。</p>
-<div class="flex justify-between items-center">
-<span class="px-3 py-1 bg-secondary-fixed text-on-secondary-fixed text-[10px] font-bold rounded-lg">124 MODELS</span>
-<span class="material-symbols-outlined text-primary opacity-0 group-hover:opacity-100 transition-all transform translate-x-[-10px] group-hover:translate-x-0">arrow_forward</span>
+<h3 class="text-xl font-bold text-slate-900 mb-3">语音</h3>
+<p class="text-body-sm text-slate-500 mb-6 leading-relaxed">ASR · TTS · 语音理解 · 声纹识别</p>
+<div class="flex items-center text-body-sm font-semibold text-[#881E55]">
+                    89 个模型 <span class="material-symbols-outlined ml-1 text-sm">arrow_forward</span>
 </div>
 </div>
 <!-- Card 2 -->
-<div class="bg-surface-container-low p-8 rounded-3xl hover:bg-surface-container-lowest hover:shadow-xl transition-all duration-300 group cursor-pointer">
-<div class="bg-white w-14 h-14 rounded-2xl flex items-center justify-center shadow-sm mb-6 text-secondary">
-<span class="material-symbols-outlined text-3xl">view_in_ar</span>
+<div class="group bg-white border border-slate-100 rounded-xl p-6 shadow-[0_2px_12px_rgba(136,30,85,0.05)] hover:shadow-xl transition-all cursor-pointer relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1.5 bg-[#D14AA4]"></div>
+<div class="mb-4">
+<span class="material-symbols-outlined text-[#D14AA4] text-3xl">visibility</span>
 </div>
-<h4 class="text-xl font-headline font-bold text-on-surface mb-3">多模态</h4>
-<p class="text-sm text-on-surface-variant mb-6 line-clamp-2">视觉与文本的跨界融合，评估大型 Vision-Language 模型推理效率。</p>
-<div class="flex justify-between items-center">
-<span class="px-3 py-1 bg-secondary-fixed text-on-secondary-fixed text-[10px] font-bold rounded-lg">89 MODELS</span>
-<span class="material-symbols-outlined text-primary opacity-0 group-hover:opacity-100 transition-all transform translate-x-[-10px] group-hover:translate-x-0">arrow_forward</span>
+<h3 class="text-xl font-bold text-slate-900 mb-3">多模态</h3>
+<p class="text-body-sm text-slate-500 mb-6 leading-relaxed">VQA · 图文生成 · 视频理解</p>
+<div class="flex items-center text-body-sm font-semibold text-[#D14AA4]">
+                    124 个模型 <span class="material-symbols-outlined ml-1 text-sm">arrow_forward</span>
 </div>
 </div>
 <!-- Card 3 -->
-<div class="bg-surface-container-low p-8 rounded-3xl hover:bg-surface-container-lowest hover:shadow-xl transition-all duration-300 group cursor-pointer">
-<div class="bg-white w-14 h-14 rounded-2xl flex items-center justify-center shadow-sm mb-6 text-tertiary">
-<span class="material-symbols-outlined text-3xl">science</span>
+<div class="group bg-white border border-slate-100 rounded-xl p-6 shadow-[0_2px_12px_rgba(136,30,85,0.05)] hover:shadow-xl transition-all cursor-pointer relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1.5 bg-amber-500"></div>
+<div class="mb-4">
+<span class="material-symbols-outlined text-amber-500 text-3xl">biotech</span>
 </div>
-<h4 class="text-xl font-headline font-bold text-on-surface mb-3">AI4S</h4>
-<p class="text-sm text-on-surface-variant mb-6 line-clamp-2">科学计算加速，涵盖蛋白质折叠、气象预测等前沿科研模型。</p>
-<div class="flex justify-between items-center">
-<span class="px-3 py-1 bg-secondary-fixed text-on-secondary-fixed text-[10px] font-bold rounded-lg">56 MODELS</span>
-<span class="material-symbols-outlined text-primary opacity-0 group-hover:opacity-100 transition-all transform translate-x-[-10px] group-hover:translate-x-0">arrow_forward</span>
+<h3 class="text-xl font-bold text-slate-900 mb-3">AI4S</h3>
+<p class="text-body-sm text-slate-500 mb-6 leading-relaxed">蛋白质预测 · 分子设计</p>
+<div class="flex items-center text-body-sm font-semibold text-amber-600">
+                    42 个模型 <span class="material-symbols-outlined ml-1 text-sm">arrow_forward</span>
 </div>
 </div>
 <!-- Card 4 -->
-<div class="bg-surface-container-low p-8 rounded-3xl hover:bg-surface-container-lowest hover:shadow-xl transition-all duration-300 group cursor-pointer">
-<div class="bg-white w-14 h-14 rounded-2xl flex items-center justify-center shadow-sm mb-6 text-primary-container">
-<span class="material-symbols-outlined text-3xl">smart_toy</span>
+<div class="group bg-white border border-slate-100 rounded-xl p-6 shadow-[0_2px_12px_rgba(136,30,85,0.05)] hover:shadow-xl transition-all cursor-pointer relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1.5 bg-slate-800"></div>
+<div class="mb-4">
+<span class="material-symbols-outlined text-slate-800 text-3xl">smart_toy</span>
 </div>
-<h4 class="text-xl font-headline font-bold text-on-surface mb-3">具身智能</h4>
-<p class="text-sm text-on-surface-variant mb-6 line-clamp-2">机器人实时决策感知，针对复杂闭环任务下的推理延迟深度分析。</p>
-<div class="flex justify-between items-center">
-<span class="px-3 py-1 bg-secondary-fixed text-on-secondary-fixed text-[10px] font-bold rounded-lg">72 MODELS</span>
-<span class="material-symbols-outlined text-primary opacity-0 group-hover:opacity-100 transition-all transform translate-x-[-10px] group-hover:translate-x-0">arrow_forward</span>
-</div>
-</div>
-</div>
-</section>
-<!-- Recent Runs -->
-<section class="py-24 bg-surface-container-low/30">
-<div class="max-w-7xl mx-auto px-8">
-<h3 class="text-4xl font-headline font-extrabold text-on-surface mb-12">近期评测完成</h3>
-<div class="space-y-4">
-<!-- Run Item 1 -->
-<div class="bg-surface-container-lowest p-6 rounded-2xl flex flex-wrap items-center justify-between group hover:shadow-lg transition-all border border-transparent hover:border-primary/10">
-<div class="flex items-center gap-6 min-w-[300px]">
-<div class="w-12 h-12 bg-rose-50 rounded-xl flex items-center justify-center">
-<span class="material-symbols-outlined text-primary">model_training</span>
-</div>
-<div>
-<h5 class="text-lg font-headline font-bold text-on-surface">Whisper-v3 Large</h5>
-<p class="text-xs text-on-surface-variant uppercase font-bold tracking-widest mt-1">Speech Recognition · FP16</p>
-</div>
-</div>
-<div class="flex gap-12 items-center flex-1 justify-center px-12">
-<div class="text-center">
-<p class="text-xs text-on-surface-variant mb-1">Latency</p>
-<p class="text-lg font-bold text-on-surface">42.5ms</p>
-</div>
-<div class="text-center">
-<p class="text-xs text-on-surface-variant mb-1">Throughput</p>
-<p class="text-lg font-bold text-secondary">1.2k tokens/s</p>
-</div>
-<div class="text-center">
-<p class="text-xs text-on-surface-variant mb-1">Speedup vs CPU</p>
-<p class="text-lg font-bold text-tertiary">14.2x</p>
-</div>
-</div>
-<div class="flex items-center gap-4">
-<span class="px-3 py-1 bg-tertiary-container text-on-tertiary-container rounded text-[10px] font-extrabold">PASSED</span>
-<span class="px-3 py-1 bg-surface-container-high text-on-surface-variant rounded text-[10px] font-bold">NPU-V2 Gen-4</span>
-<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">open_in_new</button>
-</div>
-</div>
-<!-- Run Item 2 -->
-<div class="bg-surface-container-lowest p-6 rounded-2xl flex flex-wrap items-center justify-between group hover:shadow-lg transition-all border border-transparent hover:border-primary/10">
-<div class="flex items-center gap-6 min-w-[300px]">
-<div class="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center">
-<span class="material-symbols-outlined text-secondary">psychology</span>
-</div>
-<div>
-<h5 class="text-lg font-headline font-bold text-on-surface">LLaMA-3-8B-Instruct</h5>
-<p class="text-xs text-on-surface-variant uppercase font-bold tracking-widest mt-1">Generative AI · INT8</p>
-</div>
-</div>
-<div class="flex gap-12 items-center flex-1 justify-center px-12">
-<div class="text-center">
-<p class="text-xs text-on-surface-variant mb-1">Latency</p>
-<p class="text-lg font-bold text-on-surface">18.2ms/tok</p>
-</div>
-<div class="text-center">
-<p class="text-xs text-on-surface-variant mb-1">Throughput</p>
-<p class="text-lg font-bold text-secondary">54.9 tok/s</p>
-</div>
-<div class="text-center">
-<p class="text-xs text-on-surface-variant mb-1">Speedup vs CPU</p>
-<p class="text-lg font-bold text-tertiary">22.8x</p>
-</div>
-</div>
-<div class="flex items-center gap-4">
-<span class="px-3 py-1 bg-tertiary-container text-on-tertiary-container rounded text-[10px] font-extrabold">PASSED</span>
-<span class="px-3 py-1 bg-surface-container-high text-on-surface-variant rounded text-[10px] font-bold">EDGE-NPU X1</span>
-<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">open_in_new</button>
-</div>
-</div>
-<!-- Run Item 3 -->
-<div class="bg-surface-container-lowest p-6 rounded-2xl flex flex-wrap items-center justify-between group hover:shadow-lg transition-all border border-transparent hover:border-primary/10">
-<div class="flex items-center gap-6 min-w-[300px]">
-<div class="w-12 h-12 bg-rose-50 rounded-xl flex items-center justify-center">
-<span class="material-symbols-outlined text-primary">visibility</span>
-</div>
-<div>
-<h5 class="text-lg font-headline font-bold text-on-surface">YOLOv10-Medium</h5>
-<p class="text-xs text-on-surface-variant uppercase font-bold tracking-widest mt-1">Computer Vision · INT8</p>
-</div>
-</div>
-<div class="flex gap-12 items-center flex-1 justify-center px-12">
-<div class="text-center">
-<p class="text-xs text-on-surface-variant mb-1">Latency</p>
-<p class="text-lg font-bold text-on-surface">3.4ms</p>
-</div>
-<div class="text-center">
-<p class="text-xs text-on-surface-variant mb-1">Throughput</p>
-<p class="text-lg font-bold text-secondary">294 FPS</p>
-</div>
-<div class="text-center">
-<p class="text-xs text-on-surface-variant mb-1">Speedup vs CPU</p>
-<p class="text-lg font-bold text-tertiary">35.1x</p>
-</div>
-</div>
-<div class="flex items-center gap-4">
-<span class="px-3 py-1 bg-tertiary-container text-on-tertiary-container rounded text-[10px] font-extrabold">PASSED</span>
-<span class="px-3 py-1 bg-surface-container-high text-on-surface-variant rounded text-[10px] font-bold">R-SERIES 2024</span>
-<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">open_in_new</button>
-</div>
+<h3 class="text-xl font-bold text-slate-900 mb-3">具身智能</h3>
+<p class="text-body-sm text-slate-500 mb-6 leading-relaxed">机器人控制 · 路径规划</p>
+<div class="flex items-center text-body-sm font-semibold text-slate-800">
+                    31 个模型 <span class="material-symbols-outlined ml-1 text-sm">arrow_forward</span>
 </div>
 </div>
 </div>
 </section>
-</main>
-<!-- Footer -->
-<footer class="w-full py-12 mt-20 bg-zinc-50 dark:bg-zinc-900/50 border-t border-zinc-200/50 dark:border-zinc-800/50">
-<div class="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-<div>
-<p class="font-['Manrope'] font-bold text-zinc-900 dark:text-zinc-100 text-xl mb-4">Precision Curator AI Benchmarking Lab</p>
-<p class="font-['Inter'] text-sm text-zinc-500">© 2024 Precision Curator AI Benchmarking Lab. 提供行业领先的推理加速性能分析报告与模型评估基准。</p>
+<!-- 5. RECENT ACTIVITY -->
+<section class="max-w-[1280px] mx-auto px-12 pb-24">
+<div class="flex items-center justify-between mb-8">
+<h2 class="text-h3 font-bold text-slate-900">近期评测完成</h2>
+<a class="text-body-sm font-semibold text-[#881E55] flex items-center" href="#">查看全部 <span class="material-symbols-outlined ml-1 text-[18px]">arrow_forward</span></a>
 </div>
-<div class="flex flex-wrap gap-8 justify-start md:justify-end">
-<a class="text-zinc-500 hover:text-[#b0004a] underline decoration-rose-200 underline-offset-4 transition-all opacity-80 hover:opacity-100" href="#">Methodology</a>
-<a class="text-zinc-500 hover:text-[#b0004a] underline decoration-rose-200 underline-offset-4 transition-all opacity-80 hover:opacity-100" href="#">API Docs</a>
-<a class="text-zinc-500 hover:text-[#b0004a] underline decoration-rose-200 underline-offset-4 transition-all opacity-80 hover:opacity-100" href="#">Privacy</a>
-<a class="text-zinc-500 hover:text-[#b0004a] underline decoration-rose-200 underline-offset-4 transition-all opacity-80 hover:opacity-100" href="#">Infrastructure</a>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Activity Card 1 -->
+<div class="bg-surface-container-lowest border border-slate-100 rounded-xl p-5 shadow-sm hover:translate-y-[-2px] transition-transform">
+<div class="flex justify-between items-start mb-3">
+<h4 class="font-bold text-slate-900 text-body-lg">Whisper-Large-v3</h4>
+<span class="px-2 py-0.5 bg-green-50 text-green-700 text-[11px] font-bold rounded-full">吞吐量 ↑+65%</span>
+</div>
+<p class="text-body-sm text-slate-500 mb-4">INT8量化优化方案</p>
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-[#881E55] flex items-center justify-center text-[10px] text-white">A</div>
+<span class="text-body-sm text-slate-600">alice · 华为</span>
+</div>
+</div>
+<!-- Activity Card 2 -->
+<div class="bg-surface-container-lowest border border-slate-100 rounded-xl p-5 shadow-sm hover:translate-y-[-2px] transition-transform">
+<div class="flex justify-between items-start mb-3">
+<h4 class="font-bold text-slate-900 text-body-lg">Llama-3-70B</h4>
+<span class="px-2 py-0.5 bg-green-50 text-green-700 text-[11px] font-bold rounded-full">推理时延 -42%</span>
+</div>
+<p class="text-body-sm text-slate-500 mb-4">FlashAttention算子优化</p>
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center text-[10px] text-white">B</div>
+<span class="text-body-sm text-slate-600">bob · 中科院</span>
+</div>
+</div>
+<!-- Activity Card 3 -->
+<div class="bg-surface-container-lowest border border-slate-100 rounded-xl p-5 shadow-sm hover:translate-y-[-2px] transition-transform">
+<div class="flex justify-between items-start mb-3">
+<h4 class="font-bold text-slate-900 text-body-lg">Stable Diffusion XL</h4>
+<span class="px-2 py-0.5 bg-green-50 text-green-700 text-[11px] font-bold rounded-full">显存消耗 -25%</span>
+</div>
+<p class="text-body-sm text-slate-500 mb-4">权重剪枝集成方案</p>
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-[#D14AA4] flex items-center justify-center text-[10px] text-white">C</div>
+<span class="text-body-sm text-slate-600">charlie · 腾讯</span>
+</div>
+</div>
+<!-- Activity Card 4 -->
+<div class="bg-surface-container-lowest border border-slate-100 rounded-xl p-5 shadow-sm hover:translate-y-[-2px] transition-transform">
+<div class="flex justify-between items-start mb-3">
+<h4 class="font-bold text-slate-900 text-body-lg">YOLOv10-Medium</h4>
+<span class="px-2 py-0.5 bg-green-50 text-green-700 text-[11px] font-bold rounded-full">FPS +120</span>
+</div>
+<p class="text-body-sm text-slate-500 mb-4">Auto-Mixed Precision</p>
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-[#881E55] flex items-center justify-center text-[10px] text-white">D</div>
+<span class="text-body-sm text-slate-600">david · 百度</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 6. FOOTER -->
+<footer class="w-full bg-white border-t border-slate-100">
+<div class="max-w-[1280px] mx-auto px-12 h-20 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<span class="text-sm font-bold text-slate-900">NPU Bench</span>
+<span class="text-[12px] text-slate-400">© 2024 深圳河套学院 · 昇腾算力平台 版权所有</span>
+</div>
+<div class="flex items-center gap-8">
+<a class="text-[12px] text-slate-500 hover:text-[#881E55] transition-colors" href="#">隐私政策</a>
+<a class="text-[12px] text-slate-500 hover:text-[#881E55] transition-colors" href="#">服务条款</a>
+<a class="text-[12px] text-slate-500 hover:text-[#881E55] transition-colors" href="#">联系我们</a>
+<a class="text-[12px] text-slate-500 hover:text-[#881E55] transition-colors font-medium" href="#">学术引用</a>
 </div>
 </div>
 </footer>
-<!-- BottomNavBar (Mobile only) -->
-<nav class="fixed bottom-0 w-full rounded-t-3xl md:hidden bg-[#fff8f7]/90 dark:bg-zinc-950/90 backdrop-blur-lg border-t border-rose-100/20 dark:border-zinc-800 shadow-[0_-10px_40px_rgba(39,23,26,0.08)] z-50">
-<div class="flex justify-around items-center h-20 px-6 pb-safe font-['Inter'] text-[10px] uppercase tracking-widest font-bold">
-<div class="flex flex-col items-center justify-center bg-rose-50 dark:bg-rose-950/30 text-[#b0004a] dark:text-rose-300 rounded-xl px-4 py-1 active:scale-90 transition-transform">
-<span class="material-symbols-outlined">explore</span>
-<span>Explorer</span>
-</div>
-<div class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 hover:text-[#942cb0] active:scale-90 transition-transform">
-<span class="material-symbols-outlined">monitoring</span>
-<span>Metrics</span>
-</div>
-<div class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 hover:text-[#942cb0] active:scale-90 transition-transform">
-<span class="material-symbols-outlined">military_tech</span>
-<span>Leaderboard</span>
-</div>
-<div class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 hover:text-[#942cb0] active:scale-90 transition-transform">
-<span class="material-symbols-outlined">person_search</span>
-<span>Account</span>
-</div>
-</div>
-</nav>
 </body></html>

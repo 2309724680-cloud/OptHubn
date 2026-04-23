@@ -1,19 +1,13 @@
 import type { Metadata } from "next";
-import { Manrope, Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { Public_Sans, Inter } from "next/font/google";
 import "./globals.css";
 import TopBar from "@/components/TopBar";
 import BottomNav from "@/components/BottomNav";
 
-const manrope = Manrope({
+const publicSans = Public_Sans({
   subsets: ["latin"],
-  variable: "--font-manrope",
-  weight: ["400", "600", "700", "800"],
-});
-
-const plusJakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  variable: "--font-plus-jakarta",
-  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-public-sans",
+  weight: ["400", "500", "600", "700"],
 });
 
 const inter = Inter({
@@ -23,8 +17,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "NPU HUB",
-  description: "Comprehensive benchmarking for NPU-accelerated AI models",
+  title: "NPU Bench",
+  description: "深圳河套学院 · 昇腾算力平台 — NPU 推理基准测试平台",
 };
 
 export default function RootLayout({
@@ -33,32 +27,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${manrope.variable} ${plusJakarta.variable} ${inter.variable} light`}>
+    <html lang="zh-CN" className={`${publicSans.variable} ${inter.variable}`}>
       <head>
         <link
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body className="bg-[#fff8f7] font-body text-on-surface antialiased overflow-x-hidden mesh-bg min-h-screen">
+      <body className="bg-white font-body text-on-surface antialiased overflow-x-hidden min-h-screen">
         <TopBar />
-        <main className="pt-20 pb-28 px-4 md:px-6 max-w-7xl mx-auto space-y-10">
+        <main className="pt-16 pb-28 px-4 md:px-6 max-w-7xl mx-auto space-y-10">
           {children}
         </main>
-        <footer className="w-full py-12 mt-8 bg-zinc-50 border-t border-zinc-200/50 hidden md:block">
-          <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <div>
-              <p className="font-headline font-bold text-zinc-900 text-xl mb-4">Precision Curator AI Benchmarking Lab</p>
-              <p className="font-body text-sm text-zinc-500">© 2025 Precision Curator AI Benchmarking Lab. 提供行业领先的推理加速性能分析报告与模型评估基准。</p>
+        <footer className="w-full bg-white border-t border-slate-100 hidden md:block">
+          <div className="max-w-[1280px] mx-auto px-12 h-20 flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <span className="text-sm font-bold text-slate-900">NPU Bench</span>
+              <span className="text-[12px] text-slate-400">© 2024 深圳河套学院 · 昇腾算力平台 版权所有</span>
             </div>
-            <div className="flex flex-wrap gap-8 justify-start md:justify-end">
-              {[
-                { label: "Methodology", href: "/docs" },
-                { label: "API Docs", href: "/docs" },
-                { label: "Privacy", href: "/docs" },
-                { label: "Infrastructure", href: "/docs" },
-              ].map(({ label, href }) => (
-                <a key={label} href={href} className="text-zinc-500 hover:text-primary underline decoration-rose-200 underline-offset-4 transition-all opacity-80 hover:opacity-100 text-sm">
+            <div className="flex items-center gap-8">
+              {["隐私政策", "服务条款", "联系我们", "学术引用"].map((label) => (
+                <a key={label} href="/docs" className="text-[12px] text-slate-500 hover:text-primary transition-colors">
                   {label}
                 </a>
               ))}
