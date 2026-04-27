@@ -9,6 +9,7 @@ import {
   SpeedupBarChart,
   ThroughputAreaChart,
 } from "@/components/charts/BenchmarkCharts";
+import SolutionsList from "@/components/SolutionsList";
 
 export default function ModelDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -275,6 +276,11 @@ export default function ModelDetailPage({ params }: { params: Promise<{ id: stri
             ))}
           </div>
         </section>
+      )}
+
+      {/* Inference solutions */}
+      {model.solutions && model.solutions.length > 0 && (
+        <SolutionsList solutions={model.solutions} modelId={model.id} />
       )}
 
       {/* CTA row */}

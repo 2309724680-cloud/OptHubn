@@ -69,6 +69,21 @@ export interface AccuracyMetric {
   positive?: boolean;
 }
 
+export interface MockSolution {
+  id: string;
+  name: string;
+  status: "draft" | "published" | "archived";
+  version: string;
+  quantization: string;
+  targetFramework: string;
+  powerMode: string;
+  latencyP50Ms?: number;
+  throughput?: number;
+  memoryPeakMb?: number;
+  device: string;
+  updatedAt: string;
+}
+
 export interface NpuModel {
   id: string;
   name: string;
@@ -97,6 +112,7 @@ export interface NpuModel {
   hardwareBenchmarks?: HardwareBenchmark[];
   throughputHistory?: ThroughputPoint[];
   accuracyMetrics?: AccuracyMetric[];
+  solutions?: MockSolution[];
 }
 
 export const recentModels: NpuModel[] = [
@@ -146,6 +162,50 @@ export const recentModels: NpuModel[] = [
       { name: "WER (LibriSpeech test-other)", value: "5.2%", delta: "+0.4%", positive: false },
       { name: "RTF (Real-time Factor)", value: "0.08", delta: "−92%", positive: true },
       { name: "Model Size", value: "154 MB", delta: "−75%", positive: true },
+    ],
+    solutions: [
+      {
+        id: "sol-001",
+        name: "INT8 高性能方案",
+        status: "published",
+        version: "v1.2.0",
+        quantization: "INT8",
+        targetFramework: "ONNX Runtime",
+        powerMode: "高性能",
+        latencyP50Ms: 124,
+        throughput: 84,
+        memoryPeakMb: 512,
+        device: "NPU-X1 Gen2",
+        updatedAt: "2024-03-15",
+      },
+      {
+        id: "sol-002",
+        name: "FP16 精度优先方案",
+        status: "published",
+        version: "v1.0.3",
+        quantization: "FP16",
+        targetFramework: "ONNX Runtime",
+        powerMode: "均衡",
+        latencyP50Ms: 189,
+        throughput: 56,
+        memoryPeakMb: 980,
+        device: "NPU-V2 Gen-4",
+        updatedAt: "2024-02-28",
+      },
+      {
+        id: "sol-003",
+        name: "INT4 极致压缩方案",
+        status: "draft",
+        version: "v0.3.1",
+        quantization: "INT4",
+        targetFramework: "TensorRT",
+        powerMode: "低功耗",
+        latencyP50Ms: 98,
+        throughput: 107,
+        memoryPeakMb: 280,
+        device: "EDGE-NPU X1",
+        updatedAt: "2024-04-01",
+      },
     ],
   },
   {
