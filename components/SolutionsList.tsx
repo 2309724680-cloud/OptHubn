@@ -2,9 +2,9 @@ import Link from "next/link";
 import { MockSolution } from "@/lib/mock-data";
 
 const STATUS_CONFIG = {
-  published: { label: "已发布", className: "bg-tertiary/10 text-tertiary" },
-  draft: { label: "草稿", className: "bg-secondary/10 text-secondary" },
-  archived: { label: "已归档", className: "bg-outline/10 text-outline" },
+  published: { label: "Published", className: "bg-tertiary/10 text-tertiary" },
+  draft: { label: "Draft", className: "bg-secondary/10 text-secondary" },
+  archived: { label: "Archived", className: "bg-outline/10 text-outline" },
 };
 
 const QUANT_COLOR: Record<string, string> = {
@@ -24,7 +24,7 @@ export default function SolutionsList({ solutions, modelId }: Props) {
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
           <span className="material-symbols-outlined text-primary text-[20px]">tune</span>
-          <h2 className="font-headline font-bold text-on-surface">推理方案</h2>
+          <h2 className="font-headline font-bold text-on-surface">Inference Solutions</h2>
           <span className="text-sm text-on-surface-variant font-label ml-1">
             ({solutions.length})
           </span>
@@ -34,7 +34,7 @@ export default function SolutionsList({ solutions, modelId }: Props) {
           className="flex items-center gap-1 text-sm text-primary hover:opacity-70 transition-opacity font-label font-semibold"
         >
           <span className="material-symbols-outlined text-[18px]">add</span>
-          新建方案
+          New Solution
         </Link>
       </div>
 
@@ -67,7 +67,7 @@ export default function SolutionsList({ solutions, modelId }: Props) {
                     </span>
                     <span>{sol.targetFramework}</span>
                     <span>{sol.version}</span>
-                    <span>{sol.powerMode}模式</span>
+                    <span>{sol.powerMode} Mode</span>
                   </div>
                 </div>
                 <Link
@@ -87,7 +87,7 @@ export default function SolutionsList({ solutions, modelId }: Props) {
                         <span className="text-xs font-label font-normal text-on-surface-variant ml-0.5">ms</span>
                       </p>
                       <p className="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant mt-1 font-label">
-                        P50 延迟
+                        P50 Latency
                       </p>
                     </div>
                   )}
@@ -98,7 +98,7 @@ export default function SolutionsList({ solutions, modelId }: Props) {
                         <span className="text-xs font-label font-normal text-on-surface-variant ml-0.5">fps</span>
                       </p>
                       <p className="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant mt-1 font-label">
-                        吞吐量
+                        Throughput
                       </p>
                     </div>
                   )}
@@ -109,7 +109,7 @@ export default function SolutionsList({ solutions, modelId }: Props) {
                         <span className="text-xs font-label font-normal text-on-surface-variant ml-0.5">MB</span>
                       </p>
                       <p className="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant mt-1 font-label">
-                        峰值内存
+                        Peak Memory
                       </p>
                     </div>
                   )}
@@ -117,7 +117,7 @@ export default function SolutionsList({ solutions, modelId }: Props) {
               )}
 
               <p className="mt-3 text-right text-[11px] text-on-surface-variant font-label">
-                更新于 {sol.updatedAt}
+                Updated {sol.updatedAt}
               </p>
             </div>
           );
