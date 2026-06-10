@@ -1,6 +1,5 @@
 {
-  "buildCommand": "cd hub-web && npm install && npm run build",
+  "buildCommand": "npm --prefix hub-web install && npm --prefix hub-web run build",
   "outputDirectory": "hub-web/.next",
-  "installCommand": "cd hub-web && npm install",
-  "framework": "nextjs"
+  "installCommand": "npm --prefix hub-web install"
 }
