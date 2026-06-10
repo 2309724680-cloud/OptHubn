@@ -1,0 +1,44 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: opthubn
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d opthubn"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build: ./hub-api
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:password@db:5432/opthubn
+      SECRET_KEY: change-me-in-development
+      ALLOWED_ORIGINS: http://localhost:3000
+    volumes:
+      - ./hub-api:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    build: ./hub-web
+    volumes:
+      - ./hub-web:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+
+volumes:
+  postgres-data:

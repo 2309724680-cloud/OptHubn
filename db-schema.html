@@ -1,0 +1,965 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>db-schema.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> or <div class="page"></div> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="npu-benchmark-平台--数据库表结构">NPU Benchmark 平台 — 数据库表结构</h1>
+<h2 id="平台简介">平台简介</h2>
+<p>NPU Benchmark 平台用统一口径记录不同 NPU 硬件上的推理性能数据，支持跨模型、跨硬件、跨精度的横向对比与历史复用。核心业务对象有四个：</p>
+<table>
+<thead>
+<tr>
+<th>对象</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Solution（推理方案）</strong></td>
+<td>一份「模型 × 硬件 × 精度 × 配置」的可复现组合</td>
+</tr>
+<tr>
+<td><strong>Run（测试任务）</strong></td>
+<td>一次具体的 benchmark 执行，记录触发方式与执行状态</td>
+</tr>
+<tr>
+<td><strong>Result（测试结果）</strong></td>
+<td>一次 Run 产生的性能指标（延迟、吞吐、内存、功耗等）</td>
+</tr>
+<tr>
+<td><strong>Comparison（对比）</strong></td>
+<td>在 2–8 个 Solution 之间做横向对比，可生成分享链接</td>
+</tr>
+</tbody>
+</table>
+<h2 id="表总览">表总览</h2>
+<p>当前共 <strong>5 张已落地的表</strong>：<code>inference_solutions</code>、<code>artifacts</code>、<code>benchmark_runs</code>、<code>benchmark_results</code>、<code>comparisons</code>。</p>
+<p><code>model_id</code> / <code>device_id</code> / <code>created_by</code> 当前为裸 UUID 引用，对应的模型注册表、设备注册表、用户表将在后续版本补齐，届时会加 FK 约束。</p>
+<hr>
+<h2 id="1-inference_solutions--推理方案">1. <code>inference_solutions</code> — 推理方案</h2>
+<table>
+<thead>
+<tr>
+<th>列</th>
+<th>类型</th>
+<th>可空</th>
+<th>默认</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td><code>UUID</code></td>
+<td>NOT NULL</td>
+<td><code>uuid4()</code></td>
+<td>主键</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>VARCHAR(200)</code></td>
+<td>NOT NULL</td>
+<td>—</td>
+<td>方案名称</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td><code>TEXT</code></td>
+<td>NOT NULL</td>
+<td><code>&quot;&quot;</code></td>
+<td>描述</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>ENUM solution_status</code></td>
+<td>NOT NULL</td>
+<td><code>'draft'</code></td>
+<td><code>draft</code> / <code>published</code> / <code>archived</code></td>
+</tr>
+<tr>
+<td><code>version</code></td>
+<td><code>VARCHAR(20)</code></td>
+<td>NOT NULL</td>
+<td><code>'1.0.0'</code></td>
+<td>版本号</td>
+</tr>
+<tr>
+<td><code>model_id</code></td>
+<td><code>UUID</code></td>
+<td>NOT NULL</td>
+<td>—</td>
+<td>引用模型注册表</td>
+</tr>
+<tr>
+<td><code>device_id</code></td>
+<td><code>UUID</code></td>
+<td>NOT NULL</td>
+<td>—</td>
+<td>引用设备注册表</td>
+</tr>
+<tr>
+<td><code>created_by</code></td>
+<td><code>UUID</code></td>
+<td>NOT NULL</td>
+<td>—</td>
+<td>创建者（引用用户表）</td>
+</tr>
+<tr>
+<td><code>conversion</code></td>
+<td><code>JSONB</code></td>
+<td>NOT NULL</td>
+<td><code>{}</code></td>
+<td>转换/编译参数（含精度 precision、量化参数、编译参数等）</td>
+</tr>
+<tr>
+<td><code>runtime</code></td>
+<td><code>JSONB</code></td>
+<td>NOT NULL</td>
+<td><code>{}</code></td>
+<td>运行时参数</td>
+</tr>
+<tr>
+<td><code>tags</code></td>
+<td><code>TEXT[]</code></td>
+<td>NOT NULL</td>
+<td><code>{}</code></td>
+<td>标签数组</td>
+</tr>
+<tr>
+<td><code>created_at</code></td>
+<td><code>TIMESTAMPTZ</code></td>
+<td>NOT NULL</td>
+<td><code>now()</code></td>
+<td>创建时间</td>
+</tr>
+<tr>
+<td><code>updated_at</code></td>
+<td><code>TIMESTAMPTZ</code></td>
+<td>NOT NULL</td>
+<td><code>now()</code></td>
+<td>更新时间（自动维护）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>关系：</strong></p>
+<ul>
+<li>1 → N → <code>artifacts</code>（级联删除）</li>
+<li>1 → N → <code>benchmark_runs</code>（级联删除）</li>
+</ul>
+<hr>
+<h2 id="2-artifacts--方案产物">2. <code>artifacts</code> — 方案产物</h2>
+<p>存放与方案关联的模型二进制、配置、脚本、日志、报告等文件元信息。</p>
+<table>
+<thead>
+<tr>
+<th>列</th>
+<th>类型</th>
+<th>可空</th>
+<th>默认</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td><code>UUID</code></td>
+<td>NOT NULL</td>
+<td><code>uuid4()</code></td>
+<td>主键</td>
+</tr>
+<tr>
+<td><code>solution_id</code></td>
+<td><code>UUID</code></td>
+<td>NOT NULL</td>
+<td>—</td>
+<td><strong>FK → <code>inference_solutions.id</code> ON DELETE CASCADE</strong></td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>ENUM artifact_type</code></td>
+<td>NOT NULL</td>
+<td>—</td>
+<td><code>model_binary</code> / <code>config</code> / <code>script</code> / <code>log</code> / <code>report</code></td>
+</tr>
+<tr>
+<td><code>filename</code></td>
+<td><code>VARCHAR(500)</code></td>
+<td>NOT NULL</td>
+<td>—</td>
+<td>文件名</td>
+</tr>
+<tr>
+<td><code>storage_path</code></td>
+<td><code>TEXT</code></td>
+<td>NOT NULL</td>
+<td>—</td>
+<td>存储路径（本地路径或对象存储 URI）</td>
+</tr>
+<tr>
+<td><code>size_bytes</code></td>
+<td><code>INTEGER</code></td>
+<td>NULL</td>
+<td>—</td>
+<td>文件大小</td>
+</tr>
+<tr>
+<td><code>checksum</code></td>
+<td><code>VARCHAR(64)</code></td>
+<td>NULL</td>
+<td>—</td>
+<td>文件校验和（如 sha256）</td>
+</tr>
+<tr>
+<td><code>uploaded_at</code></td>
+<td><code>TIMESTAMPTZ</code></td>
+<td>NOT NULL</td>
+<td><code>now()</code></td>
+<td>上传时间</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="3-benchmark_runs--测试任务">3. <code>benchmark_runs</code> — 测试任务</h2>
+<table>
+<thead>
+<tr>
+<th>列</th>
+<th>类型</th>
+<th>可空</th>
+<th>默认</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td><code>UUID</code></td>
+<td>NOT NULL</td>
+<td><code>uuid4()</code></td>
+<td>主键</td>
+</tr>
+<tr>
+<td><code>solution_id</code></td>
+<td><code>UUID</code></td>
+<td>NOT NULL</td>
+<td>—</td>
+<td><strong>FK → <code>inference_solutions.id</code></strong></td>
+</tr>
+<tr>
+<td><code>device_id</code></td>
+<td><code>UUID</code></td>
+<td>NOT NULL</td>
+<td>—</td>
+<td>实际运行设备</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>ENUM run_status</code></td>
+<td>NOT NULL</td>
+<td><code>'pending'</code></td>
+<td><code>pending</code> / <code>running</code> / <code>completed</code> / <code>failed</code></td>
+</tr>
+<tr>
+<td><code>trigger</code></td>
+<td><code>ENUM run_trigger</code></td>
+<td>NOT NULL</td>
+<td><code>'manual'</code></td>
+<td><code>manual</code> / <code>auto</code> / <code>scheduled</code></td>
+</tr>
+<tr>
+<td><code>test_config</code></td>
+<td><code>JSONB</code></td>
+<td>NOT NULL</td>
+<td><code>{}</code></td>
+<td>运行时测试参数（场景、并发数等）</td>
+</tr>
+<tr>
+<td><code>environment</code></td>
+<td><code>JSONB</code></td>
+<td>NOT NULL</td>
+<td><code>{}</code></td>
+<td>环境信息（SDK 版本、驱动版本等）</td>
+</tr>
+<tr>
+<td><code>error_message</code></td>
+<td><code>TEXT</code></td>
+<td>NULL</td>
+<td>—</td>
+<td>失败原因</td>
+</tr>
+<tr>
+<td><code>started_at</code></td>
+<td><code>TIMESTAMPTZ</code></td>
+<td>NULL</td>
+<td>—</td>
+<td>开始执行时间</td>
+</tr>
+<tr>
+<td><code>finished_at</code></td>
+<td><code>TIMESTAMPTZ</code></td>
+<td>NULL</td>
+<td>—</td>
+<td>完成时间</td>
+</tr>
+<tr>
+<td><code>created_by</code></td>
+<td><code>UUID</code></td>
+<td>NULL</td>
+<td>—</td>
+<td>触发者</td>
+</tr>
+<tr>
+<td><code>created_at</code></td>
+<td><code>TIMESTAMPTZ</code></td>
+<td>NOT NULL</td>
+<td><code>now()</code></td>
+<td>创建时间</td>
+</tr>
+</tbody>
+</table>
+<p><strong>关系：</strong></p>
+<ul>
+<li>N → 1 → <code>inference_solutions</code></li>
+<li>1 → 0..1 → <code>benchmark_results</code>（级联删除）</li>
+</ul>
+<hr>
+<h2 id="4-benchmark_results--测试结果">4. <code>benchmark_results</code> — 测试结果</h2>
+<p>每个 Run 最多对应一条 Result。</p>
+<table>
+<thead>
+<tr>
+<th>列</th>
+<th>类型</th>
+<th>可空</th>
+<th>默认</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td><code>UUID</code></td>
+<td>NOT NULL</td>
+<td><code>uuid4()</code></td>
+<td>主键</td>
+</tr>
+<tr>
+<td><code>run_id</code></td>
+<td><code>UUID</code></td>
+<td>NOT NULL</td>
+<td>—</td>
+<td><strong>FK → <code>benchmark_runs.id</code> ON DELETE CASCADE</strong></td>
+</tr>
+<tr>
+<td><code>latency_p50_ms</code></td>
+<td><code>NUMERIC(10,3)</code></td>
+<td>NULL</td>
+<td>—</td>
+<td>P50 延迟（毫秒）</td>
+</tr>
+<tr>
+<td><code>latency_p95_ms</code></td>
+<td><code>NUMERIC(10,3)</code></td>
+<td>NULL</td>
+<td>—</td>
+<td>P95 延迟（毫秒）</td>
+</tr>
+<tr>
+<td><code>latency_p99_ms</code></td>
+<td><code>NUMERIC(10,3)</code></td>
+<td>NULL</td>
+<td>—</td>
+<td>P99 延迟（毫秒）</td>
+</tr>
+<tr>
+<td><code>throughput</code></td>
+<td><code>NUMERIC(12,3)</code></td>
+<td>NULL</td>
+<td>—</td>
+<td>QPS</td>
+</tr>
+<tr>
+<td><code>memory_peak_mb</code></td>
+<td><code>NUMERIC(10,2)</code></td>
+<td>NULL</td>
+<td>—</td>
+<td>内存峰值（MB）</td>
+</tr>
+<tr>
+<td><code>power_mw</code></td>
+<td><code>NUMERIC(10,2)</code></td>
+<td>NULL</td>
+<td>—</td>
+<td>功耗（毫瓦）</td>
+</tr>
+<tr>
+<td><code>ttft_ms</code></td>
+<td><code>NUMERIC(10,3)</code></td>
+<td>NULL</td>
+<td>—</td>
+<td>首 token 延迟（LLM 场景）</td>
+</tr>
+<tr>
+<td><code>tps</code></td>
+<td><code>NUMERIC(10,3)</code></td>
+<td>NULL</td>
+<td>—</td>
+<td>Token 吞吐量（LLM 场景）</td>
+</tr>
+<tr>
+<td><code>accuracy</code></td>
+<td><code>JSONB</code></td>
+<td>NOT NULL</td>
+<td><code>{}</code></td>
+<td>精度指标（key 由任务类型决定，如 <code>top1</code> / <code>top5</code> / <code>mAP50</code>）</td>
+</tr>
+<tr>
+<td><code>raw_log_path</code></td>
+<td><code>TEXT</code></td>
+<td>NULL</td>
+<td>—</td>
+<td>原始日志路径</td>
+</tr>
+<tr>
+<td><code>created_at</code></td>
+<td><code>TIMESTAMPTZ</code></td>
+<td>NOT NULL</td>
+<td><code>now()</code></td>
+<td>创建时间</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="5-comparisons--对比">5. <code>comparisons</code> — 对比</h2>
+<table>
+<thead>
+<tr>
+<th>列</th>
+<th>类型</th>
+<th>可空</th>
+<th>默认</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td><code>UUID</code></td>
+<td>NOT NULL</td>
+<td><code>uuid4()</code></td>
+<td>主键</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>VARCHAR(200)</code></td>
+<td>NOT NULL</td>
+<td>—</td>
+<td>对比名称</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td><code>TEXT</code></td>
+<td>NOT NULL</td>
+<td><code>&quot;&quot;</code></td>
+<td>描述</td>
+</tr>
+<tr>
+<td><code>solution_ids</code></td>
+<td><code>UUID[]</code></td>
+<td>NOT NULL</td>
+<td>—</td>
+<td>参与对比的 Solution（业务约束 2–8 个）</td>
+</tr>
+<tr>
+<td><code>baseline_id</code></td>
+<td><code>UUID</code></td>
+<td>NOT NULL</td>
+<td>—</td>
+<td>基准 Solution（须为 <code>solution_ids</code> 之一）</td>
+</tr>
+<tr>
+<td><code>metrics_selected</code></td>
+<td><code>TEXT[]</code></td>
+<td>NOT NULL</td>
+<td><code>{}</code></td>
+<td>选择展示的指标名</td>
+</tr>
+<tr>
+<td><code>run_snapshot</code></td>
+<td><code>JSONB</code></td>
+<td>NOT NULL</td>
+<td><code>{}</code></td>
+<td><code>{solution_id: run_id}</code> 快照，保证对比可复现</td>
+</tr>
+<tr>
+<td><code>notes</code></td>
+<td><code>TEXT</code></td>
+<td>NOT NULL</td>
+<td><code>&quot;&quot;</code></td>
+<td>备注</td>
+</tr>
+<tr>
+<td><code>created_by</code></td>
+<td><code>UUID</code></td>
+<td>NOT NULL</td>
+<td>—</td>
+<td>创建者</td>
+</tr>
+<tr>
+<td><code>created_at</code></td>
+<td><code>TIMESTAMPTZ</code></td>
+<td>NOT NULL</td>
+<td><code>now()</code></td>
+<td>创建时间</td>
+</tr>
+<tr>
+<td><code>updated_at</code></td>
+<td><code>TIMESTAMPTZ</code></td>
+<td>NOT NULL</td>
+<td><code>now()</code></td>
+<td>更新时间（自动维护）</td>
+</tr>
+<tr>
+<td><code>shared</code></td>
+<td><code>BOOLEAN</code></td>
+<td>NOT NULL</td>
+<td><code>false</code></td>
+<td>是否公开分享</td>
+</tr>
+<tr>
+<td><code>share_token</code></td>
+<td><code>VARCHAR(64)</code></td>
+<td>NULL</td>
+<td>—</td>
+<td><strong>UNIQUE</strong>，分享链接 token</td>
+</tr>
+<tr>
+<td><code>share_expires_at</code></td>
+<td><code>TIMESTAMPTZ</code></td>
+<td>NULL</td>
+<td>—</td>
+<td>分享过期时间</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><code>solution_ids</code> 与 <code>run_snapshot</code> 通过 UUID / JSONB 软引用其它表，不设外键，便于历史快照独立保留。</p>
+</blockquote>
+<hr>
+<h2 id="6-枚举类型">6. 枚举类型</h2>
+<table>
+<thead>
+<tr>
+<th>枚举名</th>
+<th>取值</th>
+<th>使用位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>solution_status</code></td>
+<td><code>draft</code> / <code>published</code> / <code>archived</code></td>
+<td><code>inference_solutions.status</code></td>
+</tr>
+<tr>
+<td><code>artifact_type</code></td>
+<td><code>model_binary</code> / <code>config</code> / <code>script</code> / <code>log</code> / <code>report</code></td>
+<td><code>artifacts.type</code></td>
+</tr>
+<tr>
+<td><code>run_status</code></td>
+<td><code>pending</code> / <code>running</code> / <code>completed</code> / <code>failed</code></td>
+<td><code>benchmark_runs.status</code></td>
+</tr>
+<tr>
+<td><code>run_trigger</code></td>
+<td><code>manual</code> / <code>auto</code> / <code>scheduled</code></td>
+<td><code>benchmark_runs.trigger</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="7-关系图">7. 关系图</h2>
+<pre class="hljs"><code><div>inference_solutions ──┬── 1:N ──&gt; artifacts            (ON DELETE CASCADE)
+                      └── 1:N ──&gt; benchmark_runs       (ON DELETE CASCADE)
+                                       │
+                                       └── 1:0..1 ──&gt; benchmark_results  (ON DELETE CASCADE)
+
+comparisons  ─── 通过 solution_ids[] / run_snapshot JSONB 软引用 solutions 和 runs
+</div></code></pre>
+<hr>
+<h2 id="8-命名与约定">8. 命名与约定</h2>
+<ul>
+<li><strong>主键</strong>：所有业务表均为 <code>UUID</code>，由应用层生成（<code>uuid4()</code>）。</li>
+<li><strong>时间戳</strong>：统一 <code>TIMESTAMPTZ</code>，默认 <code>now()</code>；<code>updated_at</code> 由 ORM 在更新时自动写入。</li>
+<li><strong>JSONB 字段</strong>：用于存放结构灵活、查询要求不高的配置或扩展指标，便于演进而无需频繁迁移。</li>
+<li><strong>软删除</strong>：Solution 通过 <code>status = 'archived'</code> 实现，物理删除仅在级联场景发生。</li>
+<li><strong>级联删除</strong>：删除 Solution 会连带删除其 Artifacts、Runs 及 Runs 下的 Results。</li>
+</ul>
+
+</body>
+</html>
