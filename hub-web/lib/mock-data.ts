@@ -1564,7 +1564,8 @@ export const recentRuns: RecentRun[] = [
 
 export const profileSettingsGrid = [
   { id: "1", icon: "manage_accounts", label: "账号管理", description: "修改资料、密码", href: "/account" },
-  { id: "2", icon: "leaderboard", label: "排行榜", description: "查看模型排名", href: "/leaderboard" },
-  { id: "3", icon: "add_chart", label: "提交测试", description: "提交新的基准任务", href: "/submit" },
-  { id: "4", icon: "menu_book", label: "文档", description: "使用指南与 API", href: "/docs" },
+  { id: "2", icon: "list_alt", label: "我的提交", description: "查看已提交的测试任务", href: "/submissions" },
+  { id: "3", icon: "leaderboard", label: "排行榜", description: "查看模型排名", href: "/leaderboard" },
+  { id: "4", icon: "add_chart", label: "提交测试", description: "提交新的基准任务", href: "/submit" },
+  { id: "5", icon: "menu_book", label: "文档", description: "使用指南与 API", href: "/docs" },
 ];

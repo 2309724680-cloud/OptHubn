@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { profileSettingsGrid } from "@/lib/mock-data";
+import { getSubmissions } from "@/lib/submissions";
 import { useAuth } from "@/lib/use-auth";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -19,9 +20,11 @@ export default function ProfilePage() {
   const [lang, setLang] = useState("zh-CN");
   const [showLang, setShowLang] = useState(false);
   const [hydrated, setHydrated] = useState(false);
+  const [subCount, setSubCount] = useState(0);
 
   useEffect(() => {
     setHydrated(true);
+    setSubCount(getSubmissions().length);
     const stored = localStorage.getItem("npuhub_prefs");
     if (stored) {
       const prefs = JSON.parse(stored);
@@ -81,14 +84,14 @@ export default function ProfilePage() {
           <p className="text-on-surface-variant text-sm font-body">{user.email}</p>
         </div>
         <div className="flex gap-4">
-          <div className="px-4 py-2 bg-surface-container-low rounded-lg text-center">
-            <span className="block font-bold text-secondary">—</span>
+          <Link href="/submissions" className="px-4 py-2 bg-surface-container-low rounded-lg text-center hover:bg-surface-container transition-colors">
+            <span className="block font-bold text-secondary">{subCount}</span>
             <span className="text-[10px] uppercase tracking-wider font-semibold opacity-60 font-label">Submitted</span>
-          </div>
-          <div className="px-4 py-2 bg-surface-container-low rounded-lg text-center">
-            <span className="block font-bold text-secondary">—</span>
+          </Link>
+          <Link href="/submissions" className="px-4 py-2 bg-surface-container-low rounded-lg text-center hover:bg-surface-container transition-colors">
+            <span className="block font-bold text-secondary">{subCount}</span>
             <span className="text-[10px] uppercase tracking-wider font-semibold opacity-60 font-label">Benchmarks</span>
-          </div>
+          </Link>
         </div>
       </section>
 

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { addSubmission } from "@/lib/submissions";
 
 const steps = [
   { label: "Basic Info", icon: "info" },
@@ -63,8 +64,14 @@ export default function SubmitPage() {
           </div>
         </div>
         <div className="flex flex-wrap gap-3 justify-center">
-          <Link href="/leaderboard">
+          <Link href="/submissions">
             <button className="flex items-center gap-2 gradient-primary text-white px-6 py-3 rounded-xl font-headline font-bold shadow-lg shadow-primary/20 hover:opacity-90 active:scale-95 transition-all">
+              <span className="material-symbols-outlined text-[20px]">list_alt</span>
+              查看我的提交
+            </button>
+          </Link>
+          <Link href="/leaderboard">
+            <button className="flex items-center gap-2 border border-outline-variant/30 text-on-surface px-6 py-3 rounded-xl font-headline font-bold hover:bg-surface-container-low transition-all">
               <span className="material-symbols-outlined text-[20px]">leaderboard</span>
               查看排行榜
             </button>
@@ -240,6 +247,18 @@ export default function SubmitPage() {
               if (step < steps.length - 1) {
                 setStep(step + 1);
               } else {
+                addSubmission({
+                  id: taskId,
+                  baseModel: form.baseModel,
+                  solutionName: form.solutionName,
+                  versionTag: form.versionTag,
+                  source: form.source,
+                  registryUrl: form.registryUrl,
+                  isPublic: form.isPublic,
+                  telemetry: form.telemetry,
+                  status: "QUEUED",
+                  submittedAt: new Date().toISOString(),
+                });
                 setSubmitted(true);
               }
             }}
