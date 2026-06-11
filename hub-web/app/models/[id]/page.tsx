@@ -291,11 +291,43 @@ export default function ModelDetailPage({ params }: { params: Promise<{ id: stri
             Submit New Run
           </button>
         </Link>
-        <button className="flex items-center gap-2 border border-outline-variant/30 text-on-surface px-6 py-3 rounded-xl font-headline font-bold hover:bg-surface-container-low transition-all">
+        <button
+          onClick={() => {
+            const report = {
+              model: model.name,
+              category: model.category,
+              version: model.version,
+              framework: model.framework,
+              quant: model.quant,
+              metrics: { latency: model.metric1Value, throughput: model.metric2Value },
+              benchmarks: model.hardwareBenchmarks,
+              exportedAt: new Date().toISOString(),
+            };
+            const blob = new Blob([JSON.stringify(report, null, 2)], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `${model.id}-report.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+          }}
+          className="flex items-center gap-2 border border-outline-variant/30 text-on-surface px-6 py-3 rounded-xl font-headline font-bold hover:bg-surface-container-low transition-all"
+        >
           <span className="material-symbols-outlined text-[20px]">download</span>
           Export Report
         </button>
-        <button className="flex items-center gap-2 border border-outline-variant/30 text-on-surface px-6 py-3 rounded-xl font-headline font-bold hover:bg-surface-container-low transition-all">
+        <button
+          onClick={async () => {
+            const url = window.location.href;
+            if (navigator.share) {
+              await navigator.share({ title: model.name, url });
+            } else {
+              await navigator.clipboard.writeText(url);
+              alert("链接已复制到剪贴板");
+            }
+          }}
+          className="flex items-center gap-2 border border-outline-variant/30 text-on-surface px-6 py-3 rounded-xl font-headline font-bold hover:bg-surface-container-low transition-all"
+        >
           <span className="material-symbols-outlined text-[20px]">share</span>
           Share
         </button>
