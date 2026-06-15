@@ -217,165 +217,130 @@ Agent 加载模型与 NPU Backend，完成推理环境初始化
 
 ```mermaid
 flowchart TB
+    %% ── 接入层 ──
+    UI["Web UI"]:::access
+    Agent["设备 Agent"]:::access
+    CI["CI/CD 调用"]:::access
 
-subgraph ACCESS["接入层 Access"]
-    direction LR
-    UI["🌐 Web UI"]
-    Agent["🤖 设备 Agent"]
-    CI["🔧 CI/CD 调用"]
-end
+    %% ── 网关层 ──
+    APIGW["API 网关 /api/v1/<br/>JWT · 限流 · 日志"]:::gateway
+    IngestGW["Ingest 网关 /api/v1/ingest<br/>API Key · 设备专用"]:::gateway
 
-subgraph GATEWAY["网关层 Gateway"]
-    direction LR
-    APIGW["/api/v1/  ·  JWT 用户鉴权 ·  限流 ·  日志"]
-    IngestGW["/api/v1/ingest  ·  API Key 设备鉴权 ·  限流"]
-end
+    %% ── BFF ──
+    WebBFF["Web BFF<br/>数据聚合 · 字段裁剪"]:::bff
 
-subgraph BFF["BFF 适配层"]
-    direction LR
-    WebBFF["Web BFF  数据聚合 · 字段裁剪 · 图表数据封装"]
-end
+    %% ── 业务层 ──
+    SolutionSvc["Solution 服务"]:::core
+    RunSvc["Run 服务"]:::core
+    ResultSvc["Result 服务"]:::core
+    Scheduler["调度服务"]:::schedule
+    CompareSvc["对比分析"]:::schedule
+    AuthSvc["认证授权"]:::support
+    AuditSvc["审计日志"]:::support
+    NotifySvc["通知服务"]:::support
+    ModelRegSvc["模型注册"]:::registry
+    DeviceRegSvc["设备注册"]:::registry
 
-subgraph BUSINESS["业务应用层 Application"]
+    %% ── 领域层 ──
+    Domain[("领域层<br/>实体 · 状态机 · 业务规则")]:::domain
 
-    subgraph CORE["核心业务"]
-        SolutionSvc["Solution 服务  CRUD · 状态流转 · 克隆"]
-        RunSvc["Run 服务  任务生命周期 · 状态机管理"]
-        ResultSvc["Result 服务  指标校验 · 中位数聚合 · 结果查询"]
-    end
+    %% ── 基础设施 ──
+    MQ["消息队列"]:::infra
+    Cache["Redis 缓存"]:::infra
 
-    subgraph SCHEDULE["调度与分析"]
-        Scheduler["调度服务  设备匹配 · 任务分发 · 超时重试"]
-        CompareSvc["对比分析服务  Delta计算 · 排名 · 雷达图"]
-    end
+    %% ── 适配层 ──
+    Backend["NPU Backend<br/>厂商SDK统一接口"]:::adapter
+    Loader["模型加载器"]:::adapter
+    Webhook["Webhook"]:::adapter
 
-    subgraph SUPPORT["横切支撑"]
-        AuthSvc["认证授权服务  JWT签发 · RBAC · API Key管理"]
-        AuditSvc["审计服务  操作日志记录 · 追溯查询"]
-        NotifySvc["通知服务  状态变更通知 · 多渠道推送"]
-    end
+    %% ── 数据层 ──
+    DB[("PostgreSQL")]:::data
+    Artifact[("Artifact 存储")]:::data
+    LogStore[("日志存储")]:::data
 
-    subgraph REGISTRY["注册中心"]
-        ModelRegSvc["模型注册服务  元数据管理 · 版本 · 输入规格"]
-        DeviceRegSvc["设备注册服务  芯片信息 · Agent绑定 · 状态监控"]
-    end
-end
+    %% ── 执行层 ──
+    NPU1["NPU 设备 1"]:::exec
+    NPU2["NPU 设备 2"]:::exec
+    NPUN["NPU 设备 N"]:::exec
+    A1["Agent 1"]:::exec
+    A2["Agent 2"]:::exec
+    AN["Agent N"]:::exec
 
-subgraph DOMAIN["领域层 Domain"]
-    direction LR
-    Entity["实体  Solution / Run / Result / Comparison"]
-    State["状态机  draft→published→archived   pending→running→completed"]
-    Rule["规则  CV稳定性 · 中位数聚合 · 异常检测 · 幂等去重"]
-end
+    %% ═══ 连接 ═══
 
-subgraph INFRA["基础设施层 Infrastructure"]
-    direction LR
-    MQ["📨 消息队列  异步任务分发"]
-    Cache["⚡ 缓存  Redis"]
-    Trace["🔍 链路追踪  OpenTelemetry"]
-    Monitor["📊 指标采集  Prometheus"]
-end
+    %% 接入 → 网关
+    UI & CI --> APIGW
+    Agent --> IngestGW
 
-subgraph ADAPTER["适配层 Adapter"]
-    direction LR
-    Backend["NPU Backend  厂商SDK统一接口"]
-    Loader["模型加载器  编译缓存 · 多格式支持"]
-    Webhook["Webhook  外部回调通知"]
-end
+    %% 网关分发
+    APIGW --> WebBFF
+    APIGW --> AuthSvc
+    IngestGW --> ResultSvc
 
-subgraph DATA["数据层 Data"]
-    direction LR
-    DB[("🗄️ PostgreSQL")]
-    Artifact[("📦 Artifact存储  编译产物")]
-    LogStore[("📋 日志存储")]
-end
+    %% BFF → 业务
+    WebBFF --> SolutionSvc & RunSvc & ResultSvc & CompareSvc
 
-subgraph EXEC["执行层 Execution"]
-    direction LR
-    A1["Agent 1"] --- NPU1["NPU 设备 1"]
-    A2["Agent 2"] --- NPU2["NPU 设备 2"]
-    AN["Agent N"] --- NPUN["NPU 设备 N"]
-end
+    %% 业务内部编排
+    RunSvc --> SolutionSvc & Scheduler & DeviceRegSvc
+    Scheduler --> DeviceRegSvc --> DB
+    Scheduler --> MQ
+    CompareSvc --> ResultSvc & SolutionSvc
+    SolutionSvc --> ModelRegSvc & DeviceRegSvc
 
-%% ===== 接入 → 网关 =====
-UI --> APIGW
-CI --> APIGW
-Agent --> IngestGW
+    %% 支撑服务
+    AuthSvc & AuditSvc --> DB
+    NotifySvc --> Webhook
 
-%% ===== 网关 → BFF / Auth =====
-APIGW --> AuthSvc
-APIGW --> WebBFF
+    %% MQ → Agent → NPU
+    MQ --> A1 & A2 & AN
+    A1 --> NPU1
+    A2 --> NPU2
+    AN --> NPUN
+    A1 & A2 & AN --> Backend --> Loader
 
-%% ===== BFF → 核心业务 =====
-WebBFF --> SolutionSvc
-WebBFF --> RunSvc
-WebBFF --> ResultSvc
-WebBFF --> CompareSvc
+    %% 数据写入
+    ResultSvc --> DB & Artifact & LogStore
 
-%% ===== Ingest 网关 → Result =====
-IngestGW --> ResultSvc
+    %% 跨层
+    SolutionSvc & RunSvc & ResultSvc & Scheduler & CompareSvc -.-> Domain
+    Scheduler & NotifySvc & ResultSvc -.-> MQ
+    WebBFF & ResultSvc & AuthSvc -.-> Cache
 
-%% ===== 业务服务内部编排 =====
-RunSvc --> SolutionSvc
-RunSvc --> Scheduler
-RunSvc --> DeviceRegSvc
-Scheduler --> DeviceRegSvc
-Scheduler --> MQ
-ResultSvc --> MQ
-CompareSvc --> ResultSvc
-CompareSvc --> SolutionSvc
-
-%% ===== 注册中心 =====
-SolutionSvc --> ModelRegSvc
-SolutionSvc --> DeviceRegSvc
-ModelRegSvc --> DB
-DeviceRegSvc --> DB
-
-%% ===== 支撑服务 =====
-AuthSvc --> DB
-AuditSvc --> DB
-NotifySvc --> Webhook
-
-%% ===== 异步通道：MQ → Agent =====
-MQ --> A1
-MQ --> A2
-MQ --> AN
-
-%% ===== Agent → NPU =====
-A1 --> Backend
-A2 --> Backend
-AN --> Backend
-Backend --> Loader
-
-%% ===== 数据写入 =====
-ResultSvc --> DB
-ResultSvc --> Artifact
-ResultSvc --> LogStore
-
-%% ===== 跨层依赖 =====
-BUSINESS -.-> DOMAIN
-BUSINESS -.-> INFRA
+    %% ═══ 样式 ═══
+    classDef access fill:#e8eaf6,stroke:#3f51b5,color:#1a237e
+    classDef gateway fill:#fce4ec,stroke:#e91e63,color:#880e4f
+    classDef bff fill:#fff3e0,stroke:#ff9800,color:#e65100
+    classDef core fill:#e8f5e9,stroke:#4caf50,color:#1b5e20
+    classDef schedule fill:#e0f2f1,stroke:#009688,color:#004d40
+    classDef support fill:#f3e5f5,stroke:#9c27b0,color:#4a148c
+    classDef registry fill:#fff8e1,stroke:#ffc107,color:#f57f17
+    classDef domain fill:#f5f5f5,stroke:#616161,color:#212121
+    classDef infra fill:#eceff1,stroke:#607d8b,color:#263238
+    classDef adapter fill:#e1f5fe,stroke:#03a9f4,color:#01579b
+    classDef data fill:#efebe9,stroke:#795548,color:#3e2723
+    classDef exec fill:#fbe9e7,stroke:#ff5722,color:#bf360c
 ```
 
-**架构图说明：**
-
-| 分层 | 核心职责 | 关键变化（相对 V1.0） |
-|------|---------|---------------------|
-| 接入层 | 三类角色入口：Web UI / Agent / CI | 移除 Health（归入网关通用处理） |
-| 网关层 | 双网关设计：用户 JWT + 设备 API Key 分流 | **新增** IngestGW 独立网关，与用户网关分离 |
-| BFF 适配层 | 前端专用数据聚合层 | **新增**，解决多次调用与字段暴露问题 |
-| 业务应用层 | 四大服务组：核心/调度/支撑/注册 | **新增** AuthSvc、AuditSvc、ModelRegSvc、DeviceRegSvc |
-| 领域层 | 业务实体/状态机/规则集中封装 | **新增**，防止规则散落在各 Service |
-| 基础设施层 | MQ/缓存/追踪/监控公共底座 | **新增**，承载异步解耦与可观测能力 |
-| 适配层 | 厂商 SDK 统一接口 | 保持不变 |
-| 数据层 | PostgreSQL + Artifact + 日志 | Log 重命名为 LogStore，结构更清晰 |
-| 执行层 | Agent + NPU 设备物理执行 | Agent 与 NPU 改为并行关系（`---`），体现共置部署 |
+| 分层 (颜色) | 节点 | 核心职责 |
+|-------------|------|---------|
+| 接入层 (蓝) | Web UI · Agent · CI | 三类用户入口 |
+| 网关层 (粉) | API 网关 · Ingest 网关 | 双通道鉴权分流：JWT（人） / API Key（设备） |
+| BFF 层 (橙) | Web BFF | 前端专用聚合，一次返回页面所需全量数据 |
+| 业务·核心 (绿) | Solution · Run · Result | 配置管理 · 任务生命周期 · 指标校验入库 |
+| 业务·调度 (青) | Scheduler · Compare | 设备匹配分发 · 多维度对比分析 |
+| 业务·支撑 (紫) | Auth · Audit · Notify | 认证授权 · 操作审计 · 状态通知 |
+| 业务·注册 (黄) | ModelReg · DeviceReg | 模型/设备元数据统一管理 |
+| 领域层 (灰) | 实体 · 状态机 · 规则 | CV 稳定性 / 中位数聚合 / 幂等去重 集中封装 |
+| 基础设施 (蓝灰) | MQ · Cache | 异步解耦 · 热点缓存 |
+| 适配层 (浅蓝) | Backend · Loader · Webhook | 厂商 SDK 统一接口 · 模型加载 · 外部回调 |
+| 数据层 (棕) | PostgreSQL · Artifact · 日志 | 结构化存储 · 编译产物 · 全量日志 |
+| 执行层 (红) | Agent · NPU 设备 | 物理执行：拉取任务 → 推理 → 上报 |
 
 **核心数据流：**
 ```
-用户提交 → WebBFF → RunSvc → Scheduler → MQ → Agent → NPU → IngestGW → ResultSvc → DB
-                                                                              ↓
-                                                                         NotifySvc → Webhook
+用户提交 → WebBFF → RunSvc → Scheduler → MQ → Agent → NPU → IngestGW → ResultSvc → DB  ─┐
+                                                                                         ↓
+                                                                              NotifySvc → Webhook
 ```
 
 ---
