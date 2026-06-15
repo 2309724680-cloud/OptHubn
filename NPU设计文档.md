@@ -218,76 +218,164 @@ Agent 加载模型与 NPU Backend，完成推理环境初始化
 ```mermaid
 flowchart TB
 
-subgraph AL["接入层 Access Layer"]
-    UI[Web UI]
-    Agent[设备 Agent]
-    CI[CI/CD 调用]
-    Health[健康检查]
+subgraph ACCESS["接入层 Access"]
+    direction LR
+    UI["🌐 Web UI"]
+    Agent["🤖 设备 Agent"]
+    CI["🔧 CI/CD 调用"]
 end
 
-subgraph API_L["API 网关层 API Layer"]
-    API["/api/v1/  JWT / 限流 / 日志"]
+subgraph GATEWAY["网关层 Gateway"]
+    direction LR
+    APIGW["/api/v1/  ·  JWT 用户鉴权 ·  限流 ·  日志"]
+    IngestGW["/api/v1/ingest  ·  API Key 设备鉴权 ·  限流"]
 end
 
-subgraph APP["业务层 Application Layer"]
-    SolutionSvc[Solution 服务]
-    RunSvc[Run 服务]
-    Scheduler[调度服务]
-    ResultSvc[Result 服务]
-    CompareSvc[对比分析服务]
-    NotifySvc[通知服务]
+subgraph BFF["BFF 适配层"]
+    direction LR
+    WebBFF["Web BFF  数据聚合 · 字段裁剪 · 图表数据封装"]
 end
 
-subgraph ADAPTER["适配层 Adapter Layer"]
-    Backend[NPU Backend 厂商SDK适配]
-    Loader[模型加载器]
-    Webhook[Webhook 通知]
+subgraph BUSINESS["业务应用层 Application"]
+
+    subgraph CORE["核心业务"]
+        SolutionSvc["Solution 服务  CRUD · 状态流转 · 克隆"]
+        RunSvc["Run 服务  任务生命周期 · 状态机管理"]
+        ResultSvc["Result 服务  指标校验 · 中位数聚合 · 结果查询"]
+    end
+
+    subgraph SCHEDULE["调度与分析"]
+        Scheduler["调度服务  设备匹配 · 任务分发 · 超时重试"]
+        CompareSvc["对比分析服务  Delta计算 · 排名 · 雷达图"]
+    end
+
+    subgraph SUPPORT["横切支撑"]
+        AuthSvc["认证授权服务  JWT签发 · RBAC · API Key管理"]
+        AuditSvc["审计服务  操作日志记录 · 追溯查询"]
+        NotifySvc["通知服务  状态变更通知 · 多渠道推送"]
+    end
+
+    subgraph REGISTRY["注册中心"]
+        ModelRegSvc["模型注册服务  元数据管理 · 版本 · 输入规格"]
+        DeviceRegSvc["设备注册服务  芯片信息 · Agent绑定 · 状态监控"]
+    end
 end
 
-subgraph DATA["数据层 Data Layer"]
-    DB[(PostgreSQL)]
-    Artifact[(Artifact 存储)]
-    Log[(日志存储)]
+subgraph DOMAIN["领域层 Domain"]
+    direction LR
+    Entity["实体  Solution / Run / Result / Comparison"]
+    State["状态机  draft→published→archived   pending→running→completed"]
+    Rule["规则  CV稳定性 · 中位数聚合 · 异常检测 · 幂等去重"]
 end
 
-subgraph EXEC["执行层 Execution Layer"]
-    A1[Agent 1]
-    A2[Agent 2]
-    AN[Agent N]
-    NPU1[NPU 设备 1]
-    NPU2[NPU 设备 2]
-    NPUN[NPU 设备 N]
+subgraph INFRA["基础设施层 Infrastructure"]
+    direction LR
+    MQ["📨 消息队列  异步任务分发"]
+    Cache["⚡ 缓存  Redis"]
+    Trace["🔍 链路追踪  OpenTelemetry"]
+    Monitor["📊 指标采集  Prometheus"]
 end
 
-UI --> API
-Agent --> API
-CI --> API
-Health --> API
+subgraph ADAPTER["适配层 Adapter"]
+    direction LR
+    Backend["NPU Backend  厂商SDK统一接口"]
+    Loader["模型加载器  编译缓存 · 多格式支持"]
+    Webhook["Webhook  外部回调通知"]
+end
 
-API --> SolutionSvc
-API --> RunSvc
-API --> Scheduler
-API --> ResultSvc
-API --> CompareSvc
-API --> NotifySvc
+subgraph DATA["数据层 Data"]
+    direction LR
+    DB[("🗄️ PostgreSQL")]
+    Artifact[("📦 Artifact存储  编译产物")]
+    LogStore[("📋 日志存储")]
+end
 
-Scheduler --> A1
-Scheduler --> A2
-Scheduler --> AN
+subgraph EXEC["执行层 Execution"]
+    direction LR
+    A1["Agent 1"] --- NPU1["NPU 设备 1"]
+    A2["Agent 2"] --- NPU2["NPU 设备 2"]
+    AN["Agent N"] --- NPUN["NPU 设备 N"]
+end
 
-A1 --> NPU1
-A2 --> NPU2
-AN --> NPUN
+%% ===== 接入 → 网关 =====
+UI --> APIGW
+CI --> APIGW
+Agent --> IngestGW
 
+%% ===== 网关 → BFF / Auth =====
+APIGW --> AuthSvc
+APIGW --> WebBFF
+
+%% ===== BFF → 核心业务 =====
+WebBFF --> SolutionSvc
+WebBFF --> RunSvc
+WebBFF --> ResultSvc
+WebBFF --> CompareSvc
+
+%% ===== Ingest 网关 → Result =====
+IngestGW --> ResultSvc
+
+%% ===== 业务服务内部编排 =====
+RunSvc --> SolutionSvc
+RunSvc --> Scheduler
+RunSvc --> DeviceRegSvc
+Scheduler --> DeviceRegSvc
+Scheduler --> MQ
+ResultSvc --> MQ
+CompareSvc --> ResultSvc
+CompareSvc --> SolutionSvc
+
+%% ===== 注册中心 =====
+SolutionSvc --> ModelRegSvc
+SolutionSvc --> DeviceRegSvc
+ModelRegSvc --> DB
+DeviceRegSvc --> DB
+
+%% ===== 支撑服务 =====
+AuthSvc --> DB
+AuditSvc --> DB
+NotifySvc --> Webhook
+
+%% ===== 异步通道：MQ → Agent =====
+MQ --> A1
+MQ --> A2
+MQ --> AN
+
+%% ===== Agent → NPU =====
 A1 --> Backend
 A2 --> Backend
+AN --> Backend
 Backend --> Loader
 
+%% ===== 数据写入 =====
 ResultSvc --> DB
-ResultSvc --> Log
 ResultSvc --> Artifact
-CompareSvc --> DB
-NotifySvc --> Webhook
+ResultSvc --> LogStore
+
+%% ===== 跨层依赖 =====
+BUSINESS -.-> DOMAIN
+BUSINESS -.-> INFRA
+```
+
+**架构图说明：**
+
+| 分层 | 核心职责 | 关键变化（相对 V1.0） |
+|------|---------|---------------------|
+| 接入层 | 三类角色入口：Web UI / Agent / CI | 移除 Health（归入网关通用处理） |
+| 网关层 | 双网关设计：用户 JWT + 设备 API Key 分流 | **新增** IngestGW 独立网关，与用户网关分离 |
+| BFF 适配层 | 前端专用数据聚合层 | **新增**，解决多次调用与字段暴露问题 |
+| 业务应用层 | 四大服务组：核心/调度/支撑/注册 | **新增** AuthSvc、AuditSvc、ModelRegSvc、DeviceRegSvc |
+| 领域层 | 业务实体/状态机/规则集中封装 | **新增**，防止规则散落在各 Service |
+| 基础设施层 | MQ/缓存/追踪/监控公共底座 | **新增**，承载异步解耦与可观测能力 |
+| 适配层 | 厂商 SDK 统一接口 | 保持不变 |
+| 数据层 | PostgreSQL + Artifact + 日志 | Log 重命名为 LogStore，结构更清晰 |
+| 执行层 | Agent + NPU 设备物理执行 | Agent 与 NPU 改为并行关系（`---`），体现共置部署 |
+
+**核心数据流：**
+```
+用户提交 → WebBFF → RunSvc → Scheduler → MQ → Agent → NPU → IngestGW → ResultSvc → DB
+                                                                              ↓
+                                                                         NotifySvc → Webhook
 ```
 
 ---
