@@ -703,17 +703,25 @@ PostgreSQL 数据库，使用 SQLAlchemy 2.0 async ORM，Alembic 管理迁移。
 | 字段 | 类型 | 说明 |
 |------|------|------|
 | `id` | UUID PK | 唯一标识 |
-| `run_id` | UUID FK | 关联 Run（CASCADE 删除）|
-| `latency_p50_ms` | float | P50 延迟 |
-| `latency_p95_ms` | float | P95 延迟 |
-| `latency_p99_ms` | float | P99 延迟 |
-| `throughput` | float | QPS |
-| `memory_peak_mb` | float | 内存峰值 |
-| `power_mw` | float | 功耗（毫瓦）|
-| `ttft_ms` | float | 首 token 延迟（LLM）|
-| `tps` | float | Token 吞吐量（LLM）|
+| `run_id` | UUID FK | 关联 Run（UNIQUE，一个 Run 只一条最终结果）|
+| `task_type` | string | 任务类型标记：cv / llm（区分指标适用场景）|
+| `latency_p50_ms` | NUMERIC(10,3) | P50 延迟（毫秒） |
+| `latency_p95_ms` | NUMERIC(10,3) | P95 延迟（毫秒） |
+| `latency_p99_ms` | NUMERIC(10,3) | P99 延迟（毫秒） |
+| `throughput` | NUMERIC(12,3) | QPS |
+| `memory_peak_mb` | NUMERIC(10,2) | 内存峰值（MB） |
+| `power_mw` | NUMERIC(10,2) | 功耗（毫瓦） |
+| `ttft_ms` | NUMERIC(10,3) | 首 token 延迟（LLM 专属） |
+| `tps` | NUMERIC(10,3) | Token 吞吐量（LLM 专属） |
+| `cv` | NUMERIC(8,4) | 变异系数，> 5% 标记为 unstable |
+| `stability` | enum | normal / unstable（由 cv 自动判定） |
+| `sample_count` | int | 有效采样次数 |
 | `accuracy` | JSONB | 精度指标（top1 / top5 / mAP50 等）|
-| `raw_log_path` | string | 原始日志路径（本地路径或对象存储 URI）|
+| `raw_sample_data` | JSONB | 多轮原始采样数据，用于回溯 |
+| `raw_log_path` | string | 原始日志路径 |
+| `is_aggregated` | bool | 是否多轮聚合后的最终结果 |
+
+> 统计规则：每组至少 3 次采样，取中位数入库。同一 `run_id` 只允许一条有效结果。CHECK 约束包含 P50 ≤ P95 ≤ P99 单调递增。
 
 #### comparisons
 
@@ -752,20 +760,30 @@ PostgreSQL 数据库，使用 SQLAlchemy 2.0 async ORM，Alembic 管理迁移。
 
 | 字段 | 说明 |
 |------|------|
-| `model_id` | 唯一标识 |
-| `task_type` | classification / detection / asr / llm |
-| `file_path` | 原始 ONNX 文件路径 |
-| `input_spec` | 输入 shape / dtype |
+| `id` | UUID PK，唯一标识（对外暴露为 `model_id`） |
+| `model_name` | 模型名称 |
+| `model_version` | 版本号，默认 1.0.0 |
+| `task_type` | classification / detection / asr / llm / segmentation |
+| `framework` | 原始框架：pytorch / tensorflow / onnx |
+| `tags` | TEXT[] 标签数组 |
+| `original_file_path` | 原始模型文件路径 |
+| `input_spec` | JSONB，输入规格：维度、dtype、动态轴 |
+| `description` | 模型描述 |
 
 **设备注册表（device_registry）**
 
 | 字段 | 说明 |
 |------|------|
-| `device_id` | 唯一标识 |
-| `chip_name` | 芯片型号 |
-| `npu_tflops` | 标称算力 |
-| `supported_precisions` | 支持的量化类型列表 |
-| `agent_endpoint` | 部署在该设备上的 Agent 地址（用于 Webhook 推送任务）|
+| `id` | UUID PK，唯一标识（对外暴露为 `device_id`） |
+| `device_name` | 设备别名 |
+| `chip_name` | NPU 芯片型号 |
+| `vendor` | 厂商 |
+| `npu_tflops` | 标称算力（NUMERIC(12,2)） |
+| `supported_precisions` | TEXT[] 支持的精度列表 |
+| `agent_endpoint` | Agent 访问地址（用于 Webhook 推送任务） |
+| `cluster_group` | 集群 / 机房分组 |
+| `status` | online / offline / unhealthy / maintenance |
+| `description` | 备注 |
 
 ---
 
