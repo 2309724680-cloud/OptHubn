@@ -319,38 +319,88 @@ flowchart TB
     classDef adapter fill:#e1f5fe,stroke:#03a9f4,color:#01579b
     classDef data fill:#efebe9,stroke:#795548,color:#3e2723
     classDef exec fill:#fbe9e7,stroke:#ff5722,color:#bf360c
-
-    %% ═══ 图例 ═══
-    subgraph LEGEND["图 例"]
-        L1["接入层"]:::access
-        L2["网关层"]:::gateway
-        L3["BFF 层"]:::bff
-        L4["业务·核心"]:::core
-        L5["业务·调度"]:::schedule
-        L6["业务·支撑"]:::support
-        L7["业务·注册"]:::registry
-        L8["领域层"]:::domain
-        L9["基础设施"]:::infra
-        L10["适配层"]:::adapter
-        L11["数据层"]:::data
-        L12["执行层"]:::exec
-    end
 ```
 
-| 分层 (颜色) | 节点 | 核心职责 |
-|-------------|------|---------|
-| 接入层 (蓝) | Web UI · Agent · CI | 三类用户入口 |
-| 网关层 (粉) | API 网关 · Ingest 网关 | 双通道鉴权分流：JWT（人） / API Key（设备） |
-| BFF 层 (橙) | Web BFF | 前端专用聚合，一次返回页面所需全量数据 |
-| 业务·核心 (绿) | Solution · Run · Result | 配置管理 · 任务生命周期 · 指标校验入库 |
-| 业务·调度 (青) | Scheduler · Compare | 设备匹配分发 · 多维度对比分析 |
-| 业务·支撑 (紫) | Auth · Audit · Notify | 认证授权 · 操作审计 · 状态通知 |
-| 业务·注册 (黄) | ModelReg · DeviceReg | 模型/设备元数据统一管理 |
-| 领域层 (灰) | 实体 · 状态机 · 规则 | CV 稳定性 / 中位数聚合 / 幂等去重 集中封装 |
-| 基础设施 (蓝灰) | MQ · Cache | 异步解耦 · 热点缓存 |
-| 适配层 (浅蓝) | Backend · Loader · Webhook | 厂商 SDK 统一接口 · 模型加载 · 外部回调 |
-| 数据层 (棕) | PostgreSQL · Artifact · 日志 | 结构化存储 · 编译产物 · 全量日志 |
-| 执行层 (红) | Agent · NPU 设备 | 物理执行：拉取任务 → 推理 → 上报 |
+<table>
+<tr>
+  <td width="16" align="center"><b>色</b></td>
+  <td><b>分层</b></td>
+  <td><b>节点</b></td>
+  <td><b>核心职责</b></td>
+</tr>
+<tr>
+  <td bgcolor="#e8eaf6" style="border:2px solid #3f51b5"></td>
+  <td>接入层</td>
+  <td>Web UI · Agent · CI</td>
+  <td>三类用户入口</td>
+</tr>
+<tr>
+  <td bgcolor="#fce4ec" style="border:2px solid #e91e63"></td>
+  <td>网关层</td>
+  <td>API 网关 · Ingest 网关</td>
+  <td>双通道鉴权分流：JWT / API Key</td>
+</tr>
+<tr>
+  <td bgcolor="#fff3e0" style="border:2px solid #ff9800"></td>
+  <td>BFF 层</td>
+  <td>Web BFF</td>
+  <td>前端专用聚合，一次返回页面全量数据</td>
+</tr>
+<tr>
+  <td bgcolor="#e8f5e9" style="border:2px solid #4caf50"></td>
+  <td>业务 · 核心</td>
+  <td>Solution · Run · Result</td>
+  <td>配置管理 · 任务生命周期 · 指标校验入库</td>
+</tr>
+<tr>
+  <td bgcolor="#e0f2f1" style="border:2px solid #009688"></td>
+  <td>业务 · 调度</td>
+  <td>Scheduler · Compare</td>
+  <td>设备匹配分发 · 多维度对比分析</td>
+</tr>
+<tr>
+  <td bgcolor="#f3e5f5" style="border:2px solid #9c27b0"></td>
+  <td>业务 · 支撑</td>
+  <td>Auth · Audit · Notify</td>
+  <td>认证授权 · 操作审计 · 状态通知</td>
+</tr>
+<tr>
+  <td bgcolor="#fff8e1" style="border:2px solid #ffc107"></td>
+  <td>业务 · 注册</td>
+  <td>ModelReg · DeviceReg</td>
+  <td>模型 / 设备元数据统一管理</td>
+</tr>
+<tr>
+  <td bgcolor="#f5f5f5" style="border:2px solid #616161"></td>
+  <td>领域层</td>
+  <td>实体 · 状态机 · 规则</td>
+  <td>CV / 中位数聚合 / 幂等去重 集中封装</td>
+</tr>
+<tr>
+  <td bgcolor="#eceff1" style="border:2px solid #607d8b"></td>
+  <td>基础设施</td>
+  <td>MQ · Cache</td>
+  <td>异步解耦 · 热点缓存</td>
+</tr>
+<tr>
+  <td bgcolor="#e1f5fe" style="border:2px solid #03a9f4"></td>
+  <td>适配层</td>
+  <td>Backend · Loader · Webhook</td>
+  <td>厂商 SDK 统一接口 · 模型加载 · 外部回调</td>
+</tr>
+<tr>
+  <td bgcolor="#efebe9" style="border:2px solid #795548"></td>
+  <td>数据层</td>
+  <td>PostgreSQL · Artifact · 日志</td>
+  <td>结构化存储 · 编译产物 · 全量日志</td>
+</tr>
+<tr>
+  <td bgcolor="#fbe9e7" style="border:2px solid #ff5722"></td>
+  <td>执行层</td>
+  <td>Agent · NPU 设备</td>
+  <td>物理执行：拉取任务 → 推理 → 上报</td>
+</tr>
+</table>
 
 **核心数据流：**
 ```
