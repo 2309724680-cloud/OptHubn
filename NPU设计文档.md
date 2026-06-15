@@ -404,9 +404,10 @@ flowchart TB
 
 **核心数据流：**
 ```
-用户提交 → WebBFF → RunSvc → Scheduler → MQ → Agent → NPU → IngestGW → ResultSvc → DB  ─┐
-                                                                                         ↓
-                                                                              NotifySvc → Webhook
+用户提交 → WebBFF → RunSvc(创建任务) → Scheduler(匹配设备) → MQ(入队)
+    → Agent(拉取任务) → Loader(加载模型) → NPUBackend(推理)
+    → Agent(采集指标) → IngestGW(上报) → ResultSvc(校验+入库)
+    → NotifySvc(通知用户) → Webhook(推送到外部)
 ```
 
 ---
