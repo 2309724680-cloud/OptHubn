@@ -785,6 +785,86 @@ PostgreSQL 数据库，使用 SQLAlchemy 2.0 async ORM，Alembic 管理迁移。
 | `status` | online / offline / unhealthy / maintenance |
 | `description` | 备注 |
 
+#### 认证与授权（RBAC）
+
+**users — 用户表**
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| `id` | UUID PK | 唯一标识 |
+| `username` | VARCHAR(50) UNIQUE | 登录账号 |
+| `password_hash` | VARCHAR(128) | bcrypt/argon2 哈希，不存明文 |
+| `real_name` | VARCHAR(50) | 真实姓名 |
+| `email` | VARCHAR(100) | 邮箱 |
+| `status` | enum | active / disabled / locked |
+| `last_login_at` | timestamp | 最后登录时间 |
+| `created_at / updated_at` | timestamp | 时间戳 |
+
+**roles — 角色表**
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| `id` | UUID PK | 唯一标识 |
+| `role_name` | VARCHAR(50) UNIQUE | admin / tester / viewer |
+| `role_desc` | TEXT | 描述 |
+| `is_system` | bool | 系统内置角色不可删除 |
+
+**permissions — 权限表**
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| `id` | UUID PK | 唯一标识 |
+| `perm_code` | VARCHAR(128) UNIQUE | 如 `solution:create` |
+| `resource_type` | VARCHAR(64) | solution / run / comparison / device |
+| `action` | VARCHAR(64) | create / read / update / delete / share |
+
+**user_roles** — 用户-角色关联（多对多）  
+**role_permissions** — 角色-权限关联（多对多）
+
+> RBAC 角色预设：`admin` 全平台管理；`tester` 方案 CRUD + 任务触发 + 结果查看；`viewer` 只读。
+
+#### api_keys — 设备认证密钥表
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| `id` | UUID PK | 唯一标识 |
+| `device_id` | UUID FK → device_registry.id | 绑定设备 |
+| `key_hash` | VARCHAR(128) | API Key 哈希值（明文仅展示一次） |
+| `is_revoked` | bool | 是否吊销 |
+| `expire_at` | timestamp | 过期时间 |
+| `last_used_at` | timestamp | 最后使用时间 |
+
+> 设备通过 Ingest 网关上报时携带 API Key，服务端校验哈希值。支持轮换（Rotation）与吊销（Revoke）。
+
+#### operation_logs — 操作审计日志表
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| `id` | UUID PK | 唯一标识 |
+| `user_id` | UUID | 操作人 |
+| `operation` | VARCHAR(50) | create / update / delete / publish / share / archive |
+| `resource_type` | VARCHAR(50) | solution / run / comparison / device / model |
+| `resource_id` | UUID | 被操作资源 ID |
+| `detail` | JSONB | 操作详情快照（变更前后对比） |
+| `created_at` | timestamp | 操作时间 |
+
+> 保留 180 天，超期归档到对象存储。满足审计追溯需求。
+
+#### notifications — 站内信 / 通知表
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| `id` | UUID PK | 唯一标识 |
+| `user_id` | UUID | 接收人 |
+| `title` | VARCHAR(200) | 通知标题 |
+| `content` | TEXT | 通知内容 |
+| `type` | enum | info / warning / error / success |
+| `resource_type / resource_id` | — | 关联资源 |
+| `is_read` | bool | 已读标记，默认 false |
+| `created_at` | timestamp | 通知时间 |
+
+> 任务完成/失败、分享链接生成等事件触发通知写入。NotifySvc 负责生成 + 推送（Webhook / 企微 / 邮件）。
+
 ---
 
 ## 6. 测试执行与数据可靠性设计
