@@ -319,6 +319,22 @@ flowchart TB
     classDef adapter fill:#e1f5fe,stroke:#03a9f4,color:#01579b
     classDef data fill:#efebe9,stroke:#795548,color:#3e2723
     classDef exec fill:#fbe9e7,stroke:#ff5722,color:#bf360c
+
+    %% ═══ 图例 ═══
+    subgraph LEGEND["图 例"]
+        L1["接入层"]:::access
+        L2["网关层"]:::gateway
+        L3["BFF 层"]:::bff
+        L4["业务·核心"]:::core
+        L5["业务·调度"]:::schedule
+        L6["业务·支撑"]:::support
+        L7["业务·注册"]:::registry
+        L8["领域层"]:::domain
+        L9["基础设施"]:::infra
+        L10["适配层"]:::adapter
+        L11["数据层"]:::data
+        L12["执行层"]:::exec
+    end
 ```
 
 | 分层 (颜色) | 节点 | 核心职责 |
