@@ -147,6 +147,13 @@ NPU 硬件适配层：对接不同厂商 NPU SDK，实现统一调用接口
 - 失败重试与断点恢复
 - 幂等处理与重复任务防护
 
+9. **项目管理**：支持多团队资源隔离与协作：
+
+- 项目创建、编辑、归档（CRUD）
+- 项目负责人指定与成员管理
+- 项目级可见性控制（private / team / public）
+- Solution / Run / Comparison 归属项目，跨项目数据隔离
+
 **性能指标说明：**
 
 | 编号 | 指标 | 说明 |
@@ -632,40 +639,63 @@ class Notifier:
 
 PostgreSQL 数据库，使用 SQLAlchemy 2.0 async ORM，Alembic 管理迁移。所有表使用 UUID 主键，支持软删除与历史追溯。
 
+#### projects — 项目表（多团队隔离）
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| `id` | UUID PK | 唯一标识 |
+| `name` | VARCHAR(200) | 项目名称 |
+| `description` | TEXT | 描述 |
+| `owner_id` | UUID FK → users.id | 项目负责人 |
+| `visibility` | enum | private / team / public |
+| `is_archived` | BOOLEAN | 归档标记 |
+| `created_at / updated_at` | datetime | 时间戳 |
+
+> Solution、Benchmark Run、Comparison 均归属项目，通过 `project_id` 外键关联，实现跨项目数据隔离。
+
 #### inference_solutions
 
 | 字段 | 类型 | 说明 |
 |------|------|------|
 | `id` | UUID PK | 唯一标识 |
+| `project_id` | UUID FK → projects.id | 归属项目（多团队隔离） |
 | `name` | string | 方案名称 |
 | `description` | string | 描述 |
 | `status` | enum | draft / published / archived |
 | `model_id` | UUID | 引用模型注册表 |
 | `device_id` | UUID | 引用设备注册表 |
-| `precision` | enum | fp16 / int8 |
+| `precision` | enum | fp16 / fp32 / int8 / int4 |
 | `conversion` | JSONB | ConversionConfig（量化参数、编译参数等）|
 | `runtime` | JSONB | RuntimeConfig |
+| `input_config` | JSONB | 输入规格（分辨率 / 序列长度等） |
 | `tags` | ARRAY[string] | 标签 |
 | `created_by` | UUID | 创建者 |
 | `created_at / updated_at` | datetime | 时间戳 |
+
+> 唯一约束：`(model_id, device_id, conversion, runtime, input_config)` 组合唯一，DB 层通过 `config_hash` 生成列 + 部分唯一索引实现。
 
 #### benchmark_runs
 
 | 字段 | 类型 | 说明 |
 |------|------|------|
 | `id` | UUID PK | 任务唯一标识 |
+| `project_id` | UUID FK → projects.id | 归属项目 |
 | `solution_id` | UUID FK | 关联测试配置 inference_solutions.id |
 | `device_id` | UUID | 执行测试的设备唯一标识 |
 | `status` | enum | 任务状态：pending / running / completed / failed |
 | `trigger` | enum | 触发方式：manual / auto / scheduled |
+| `priority` | int | 优先级（越大越高），默认 0 |
 | `test_config` | JSONB | 运行时配置：并发数、采样次数、超时时间等 |
 | `environment` | JSONB | 运行环境快照：NPU SDK 版本、驱动版本、系统版本 |
 | `timeout_minutes` | int | 任务超时阈值，默认 30 分钟 |
+| `retry_count` | int | 当前重试次数，默认 0 |
+| `max_retries` | int | 最大重试次数，默认 3 |
 | `error_message` | text | 任务失败异常信息，为空表示执行成功 |
 | `started_at` | timestamp | 任务开始执行时间 |
 | `finished_at` | timestamp | 任务结束执行时间 |
 | `created_at` | timestamp | 任务创建时间 |
 | `updated_at` | timestamp | 任务信息更新时间 |
+| `created_by` | UUID | 任务创建人标识 |
 | `created_by` | UUID | 任务创建人标识 |
 
 #### benchmark_results
@@ -690,6 +720,7 @@ PostgreSQL 数据库，使用 SQLAlchemy 2.0 async ORM，Alembic 管理迁移。
 | 字段 | 类型 | 说明 |
 |------|------|------|
 | `id` | UUID PK | 唯一标识 |
+| `project_id` | UUID FK → projects.id | 归属项目 |
 | `name / description` | string | 名称与描述 |
 | `solution_ids` | ARRAY[UUID] | 参与对比的 Solution（2–8 个）|
 | `baseline_id` | UUID | 基准 Solution |

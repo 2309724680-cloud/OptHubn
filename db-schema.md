@@ -265,12 +265,14 @@
 | `input_config` | `JSONB` | NOT NULL | `{}` | 输入规格：分辨率、序列长度、预处理 |
 | `tags` | `TEXT[]` | NOT NULL | `{}` | 标签数组 |
 | `archive_reason` | `TEXT` | NULL | — | 归档原因 |
+| `config_hash` | `VARCHAR(64)` | NOT NULL | — | **GENERATED ALWAYS AS (md5(conversion::text || runtime::text || input_config::text)) STORED**，用于唯一约束 |
 | `ref_count` | `INTEGER` | NOT NULL | `0` | 被 comparison 引用次数 |
 | `is_deleted` | `BOOLEAN` | NOT NULL | `false` | 软删除 |
 | `created_at` | `TIMESTAMPTZ` | NOT NULL | `now()` | |
 | `updated_at` | `TIMESTAMPTZ` | NOT NULL | `now()` | |
 
 **索引**：`idx_sol_model`、`idx_sol_device`、`idx_sol_status`、`idx_sol_created_by`、`idx_sol_project`、`idx_sol_visibility`、`idx_sol_created_at`、`idx_sol_tags_gin` (GIN ON `tags`)、`idx_sol_conversion_gin` (GIN ON `conversion`)、`idx_sol_runtime_gin` (GIN ON `runtime`)
+**唯一索引**：`uk_solution_config` UNIQUE ON `(model_id, device_id, config_hash) WHERE is_deleted = false` — 保证同一 Solution 配置不可重复创建
 
 ### 3.11 artifacts — 方案产物表
 
@@ -516,6 +518,8 @@ CREATE UNIQUE INDEX uk_tags_name          ON tags (name);
 CREATE UNIQUE INDEX uk_sys_configs_key    ON sys_configs (config_key);
 CREATE UNIQUE INDEX uk_sys_enums_group_code ON sys_enums (enum_group, enum_code);
 CREATE UNIQUE INDEX uk_res_run            ON benchmark_results (run_id);
+CREATE UNIQUE INDEX uk_solution_config    ON inference_solutions (model_id, device_id, config_hash)
+    WHERE is_deleted = false;
 CREATE UNIQUE INDEX uk_comp_share_token   ON comparisons (share_token)
     WHERE share_token IS NOT NULL;
 ```
